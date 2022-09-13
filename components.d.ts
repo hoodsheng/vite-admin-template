@@ -10,7 +10,9 @@ declare module "@vue/runtime-core" {
 		ElButton: typeof import("element-plus/es")["ElButton"];
 		ElOption: typeof import("element-plus/es")["ElOption"];
 		ElSelect: typeof import("element-plus/es")["ElSelect"];
+		ElSwitch: typeof import("element-plus/es")["ElSwitch"];
 		RouterLink: typeof import("vue-router")["RouterLink"];
 		RouterView: typeof import("vue-router")["RouterView"];
+		SwitchDark: typeof import("./src/components/SwitchDark/index.vue")["default"];
 	}
 }
