@@ -1,5 +1,7 @@
 {
 	"compilerOptions": {
+		"composite": true,
+		"allowSyntheticDefaultImports": true,
 		"target": "ESNext",
 		"useDefineForClassFields": true,
 		"module": "ESNext",
@@ -18,7 +20,6 @@
 			"@/*": ["src/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-	"exclude": ["node_modules", "dist", "**/*.js"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"],
+	"exclude": ["node_modules", "dist", "**/*.js"]
 }
