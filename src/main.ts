@@ -1,6 +1,14 @@
 import { createApp } from "vue";
-import "./style.css";
 import App from "./App.vue";
-import "element-plus/es/components/message/style/css";
+import { setupAssets } from "./plugins";
 
-createApp(App).mount("#app");
+async function setupApp() {
+	// import assets: js、css
+	setupAssets();
+
+	const app = createApp(App);
+	// mount app
+	app.mount("#app");
+}
+
+setupApp();

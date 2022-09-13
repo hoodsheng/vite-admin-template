@@ -11,12 +11,20 @@ import { wrapperEnv } from "./src/utils/getEnv";
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 	const env = loadEnv(mode, process.cwd());
 	const viteEnv = wrapperEnv(env);
-	console.log(viteEnv);
+	// console.log(viteEnv);
 	return {
 		// 别名配置
 		resolve: {
 			alias: {
 				"@": resolve(__dirname, "./src")
+			}
+		},
+		// 全局css扩展
+		css: {
+			preprocessorOptions: {
+				scss: {
+					additionalData: `@use "./src/styles/var.scss" as *;`
+				}
 			}
 		},
 		// 插件扩展
