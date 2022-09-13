@@ -18,6 +18,9 @@ import directives from "./directives/index";
 // vue Router
 import router from "@/routers";
 
+// pinia store
+import pinia from "@/store";
+
 const app = createApp(App);
 // 注册element Icons组件
 Object.keys(Icons).forEach(key => {
@@ -26,4 +29,5 @@ Object.keys(Icons).forEach(key => {
 
 app.use(directives);
 app.use(router);
+app.use(pinia);
 app.mount("#app");
