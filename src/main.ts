@@ -15,6 +15,9 @@ import "./styles/element.scss";
 // custom directives
 import directives from "./directives/index";
 
+// vue Router
+import router from "@/routers";
+
 const app = createApp(App);
 // 注册element Icons组件
 Object.keys(Icons).forEach(key => {
@@ -22,4 +25,5 @@ Object.keys(Icons).forEach(key => {
 });
 
 app.use(directives);
+app.use(router);
 app.mount("#app");

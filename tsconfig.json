@@ -13,8 +13,8 @@
 		"lib": ["ESNext", "DOM"],
 		"skipLibCheck": true,
 		"baseUrl": "./",
-		// 模块名到基于 baseUrl的路径映射的列表。
 		"paths": {
+			"@": ["src"],
 			"@/*": ["src/*"]
 		}
 	},
