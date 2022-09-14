@@ -20,6 +20,8 @@ import router from "@/routers";
 
 // pinia store
 import pinia from "@/store";
+// svg-icons
+import "virtual:svg-icons-register";
 
 const app = createApp(App);
 // 注册element Icons组件

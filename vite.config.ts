@@ -2,10 +2,11 @@ import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 // Element-Plus按需引入
-import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { wrapperEnv } from "./src/utils/getEnv";
+// 用于生成 svg 雪碧图
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -30,16 +31,19 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		// 插件扩展
 		plugins: [
 			vue(),
-			AutoImport({
-				resolvers: [ElementPlusResolver()]
-			}),
 			Components({
-				dts: true,
+				dts: "src/typings/components.d.ts",
+				types: [{ from: "vue-router", names: ["RouterLink", "RouterView"] }],
 				resolvers: [
 					ElementPlusResolver({
 						importStyle: "sass"
 					})
 				]
+			}),
+			// * 使用 svg 图标
+			createSvgIconsPlugin({
+				iconDirs: [resolve(process.cwd(), "src/assets/icons")],
+				symbolId: "icon-[dir]-[name]"
 			})
 		],
 		server: {

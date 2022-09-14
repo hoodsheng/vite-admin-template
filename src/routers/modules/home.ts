@@ -4,7 +4,7 @@ import { Layout } from "@/routers/constant";
 // 首页模块
 const homeRouter: Array<RouteRecordRaw> = [
 	{
-		path: "/home",
+		path: "/",
 		component: Layout,
 		redirect: "/home/index",
 		children: [

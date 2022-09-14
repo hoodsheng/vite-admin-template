@@ -83,7 +83,7 @@ const login = (formEl: FormInstance | undefined) => {
 			// * 存储 token
 			globalStore.setToken(res.data!.access_token);
 			ElMessage.success("登录成功！");
-			router.push({ name: "home" });
+			router.push("/home/index");
 		} finally {
 			loading.value = false;
 		}
