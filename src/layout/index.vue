@@ -5,8 +5,8 @@
 		</el-aside>
 		<el-container>
 			<el-header>
-				<!-- <Header /> -->
-				<!-- <Tabs v-if="themeConfig.tabs" /> -->
+				<Header />
+				<Tabs v-if="themeConfig.tabs" />
 			</el-header>
 			<el-main>
 				<!-- <router-view v-slot="{ Component, route }">
@@ -22,14 +22,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { getAuthButtons } from "@/api/modules/login";
+import { GlobalStore } from "@/store";
 import { AuthStore } from "@/store/modules/auth";
 import Menu from "./menu/Menu.vue";
+import Header from "./header/Header.vue";
+import Tabs from "./tab/Tabs.vue";
 
 const authStore = AuthStore();
-// const globalStore = GlobalStore();
-// const themeConfig = computed(() => globalStore.themeConfig);
+const globalStore = GlobalStore();
+const themeConfig = computed(() => globalStore.themeConfig);
 
 onMounted(async () => {
 	// 获取按钮权限列表
