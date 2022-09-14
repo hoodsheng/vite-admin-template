@@ -9,13 +9,13 @@
 				<Tabs v-if="themeConfig.tabs" />
 			</el-header>
 			<el-main>
-				<!-- <router-view v-slot="{ Component, route }">
+				<router-view v-slot="{ Component, route }">
 					<transition appear name="fade-transform" mode="out-in">
 						<keep-alive :include="cacheRouter">
 							<component :is="Component" :key="route.path"></component>
 						</keep-alive>
 					</transition>
-				</router-view> -->
+				</router-view>
 			</el-main>
 		</el-container>
 	</el-container>
@@ -29,6 +29,7 @@ import { AuthStore } from "@/store/modules/auth";
 import Menu from "./menu/Menu.vue";
 import Header from "./header/Header.vue";
 import Tabs from "./tab/Tabs.vue";
+import cacheRouter from "@/routers/cacheRouter";
 
 const authStore = AuthStore();
 const globalStore = GlobalStore();

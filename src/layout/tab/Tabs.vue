@@ -18,6 +18,7 @@
 					</template>
 				</el-tab-pane>
 			</el-tabs>
+			<MoreButton />
 		</div>
 	</div>
 </template>
@@ -27,6 +28,7 @@ import { computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { TabsStore } from "@/store/modules/tabs";
 import { TabsPaneContext } from "element-plus";
+import MoreButton from "./MoreButton.vue";
 
 const tabStore = TabsStore();
 const tabsMenuList = computed(() => tabStore.tabsMenuList);
