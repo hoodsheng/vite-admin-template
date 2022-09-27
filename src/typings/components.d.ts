@@ -11,14 +11,10 @@ declare module "@vue/runtime-core" {
 		404: typeof import("./../components/ErrorMessage/404.vue")["default"];
 		500: typeof import("./../components/ErrorMessage/500.vue")["default"];
 		ColSetting: typeof import("./../components/ProTable/components/ColSetting.vue")["default"];
-		ElAlert: typeof import("element-plus/es")["ElAlert"];
 		ElAside: typeof import("element-plus/es")["ElAside"];
 		ElBreadcrumb: typeof import("element-plus/es")["ElBreadcrumb"];
 		ElBreadcrumbItem: typeof import("element-plus/es")["ElBreadcrumbItem"];
 		ElButton: typeof import("element-plus/es")["ElButton"];
-		ElCheckbox: typeof import("element-plus/es")["ElCheckbox"];
-		ElCheckboxGroup: typeof import("element-plus/es")["ElCheckboxGroup"];
-		ElCol: typeof import("element-plus/es")["ElCol"];
 		ElColorPicker: typeof import("element-plus/es")["ElColorPicker"];
 		ElContainer: typeof import("element-plus/es")["ElContainer"];
 		ElDatePicker: typeof import("element-plus/es")["ElDatePicker"];
@@ -39,8 +35,6 @@ declare module "@vue/runtime-core" {
 		ElMenuItem: typeof import("element-plus/es")["ElMenuItem"];
 		ElOption: typeof import("element-plus/es")["ElOption"];
 		ElPagination: typeof import("element-plus/es")["ElPagination"];
-		ElRadio: typeof import("element-plus/es")["ElRadio"];
-		ElRadioGroup: typeof import("element-plus/es")["ElRadioGroup"];
 		ElScrollbar: typeof import("element-plus/es")["ElScrollbar"];
 		ElSelect: typeof import("element-plus/es")["ElSelect"];
 		ElSubMenu: typeof import("element-plus/es")["ElSubMenu"];
@@ -50,7 +44,6 @@ declare module "@vue/runtime-core" {
 		ElTabPane: typeof import("element-plus/es")["ElTabPane"];
 		ElTabs: typeof import("element-plus/es")["ElTabs"];
 		ElTag: typeof import("element-plus/es")["ElTag"];
-		ElTimePicker: typeof import("element-plus/es")["ElTimePicker"];
 		ElTooltip: typeof import("element-plus/es")["ElTooltip"];
 		ElUpload: typeof import("element-plus/es")["ElUpload"];
 		ImportExcel: typeof import("./../components/ImportExcel/index.vue")["default"];

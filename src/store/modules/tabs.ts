@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { TabPaneProps } from "element-plus";
 import { TabsState } from "../types";
-import { HOME_URL, TABS_BLACK_LIST } from "@/config/baseconfig";
+import { HOME_URL, TABS_WHITE_LIST } from "@/config/baseconfig";
 import piniaPersistConfig from "@/config/piniaPersistConfig";
 import router from "@/routers/index";
 
@@ -17,7 +17,7 @@ export const TabsStore = defineStore({
 		// Add Tabs
 		async addTabs(tabItem: TabsOptions) {
 			// not add tabs black list
-			if (TABS_BLACK_LIST.includes(tabItem.path)) return;
+			if (TABS_WHITE_LIST.includes(tabItem.path)) return;
 			const tabInfo: TabsOptions = {
 				title: tabItem.title,
 				path: tabItem.path,

@@ -1,69 +1,65 @@
+<!-- 💥 这里是一次性加载 LayoutComponents -->
 <template>
-	<el-container>
-		<el-aside>
-			<Menu />
-		</el-aside>
-		<el-container>
-			<el-header>
-				<Header />
-				<Tabs v-if="themeConfig.tabs" />
-			</el-header>
-			<el-main>
-				<router-view v-slot="{ Component, route }">
-					<transition appear name="fade-transform" mode="out-in">
-						<keep-alive :include="cacheRouter">
-							<component :is="Component" :key="route.path"></component>
-						</keep-alive>
-					</transition>
-				</router-view>
-			</el-main>
-		</el-container>
-	</el-container>
+	<!-- 动态组件，默认纵向布局 -->
+	<component :is="LayoutComponents[themeConfig.layout]" />
+	<ThemeDrawer />
 </template>
 
-<script setup lang="ts">
-import { onMounted, computed } from "vue";
-import { getAuthButtons } from "@/api/modules/login";
+<script setup lang="ts" name="layout">
+import { ref, computed, onMounted } from "vue";
+import { getAuthButtons, getMenuList } from "@/api/modules/login";
+import { handleRouter } from "@/utils/util";
 import { GlobalStore } from "@/store";
+import { MenuStore } from "@/store/modules/menu";
 import { AuthStore } from "@/store/modules/auth";
-import Menu from "./menu/Menu.vue";
-import Header from "./header/Header.vue";
-import Tabs from "./tab/Tabs.vue";
-import cacheRouter from "@/routers/cacheRouter";
+import ThemeDrawer from "./components/ThemeDrawer/index.vue";
+import LayoutVertical from "./LayoutVertical/index.vue";
+import LayoutClassic from "./LayoutClassic/index.vue";
+import LayoutTransverse from "./LayoutTransverse/index.vue";
+import LayoutColumns from "./LayoutColumns/index.vue";
 
+const LayoutComponents: any = {
+	vertical: LayoutVertical,
+	classic: LayoutClassic,
+	transverse: LayoutTransverse,
+	columns: LayoutColumns
+};
+
+const menuStore = MenuStore();
 const authStore = AuthStore();
 const globalStore = GlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
+const isCollapse = computed((): boolean => menuStore.isCollapse);
 
-onMounted(async () => {
-	// 获取按钮权限列表
-	const res = await getAuthButtons();
-	res.data && authStore.setAuthButtons(res.data);
+onMounted(() => {
+	getAuthButtonsList();
+	getMenus();
 });
-</script>
 
-<style scoped lang="scss">
-.el-container {
-	width: 100%;
-	min-width: 950px;
-	height: 100%;
-	.el-aside {
-		width: auto;
-		overflow: inherit;
-	}
-	.el-header,
-	.el-footer {
-		height: auto;
-		padding: 0;
-	}
-	.el-main {
-		box-sizing: border-box;
-		padding: 10px 12px;
-		overflow-x: hidden;
-		background: #f0f2f5;
-		&::-webkit-scrollbar {
-			background-color: #f0f2f5;
-		}
-	}
-}
-</style>
+// 获取按钮权限列表
+const getAuthButtonsList = async () => {
+	const { data } = await getAuthButtons();
+	data && authStore.setAuthButtons(data);
+};
+
+// 获取菜单列表中
+const getMenus = async () => {
+	const { data } = await getMenuList();
+	// 把路由菜单处理成一维数组（存储到 pinia ）
+	data && authStore.setAuthRouter(handleRouter(data));
+	data && menuStore.setMenuList(data);
+};
+
+// 监听窗口大小变化，折叠 aside
+const screenWidth = ref<number>(0);
+const listeningWindow = () => {
+	window.onresize = () => {
+		return (() => {
+			screenWidth.value = document.body.clientWidth;
+			if (isCollapse.value === false && screenWidth.value < 1200) menuStore.setCollapse();
+			if (isCollapse.value === true && screenWidth.value > 1200) menuStore.setCollapse();
+		})();
+	};
+};
+listeningWindow();
+</script>
