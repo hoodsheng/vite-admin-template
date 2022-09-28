@@ -56,7 +56,4 @@ declare module "@vue/runtime-core" {
 		SwitchDark: typeof import("./../components/SwitchDark/index.vue")["default"];
 		UploadImg: typeof import("./../components/UploadImg/index.vue")["default"];
 	}
-	export interface ComponentCustomProperties {
-		vLoading: typeof import("element-plus/es")["ElLoadingDirective"];
-	}
 }

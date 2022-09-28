@@ -7,6 +7,8 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { wrapperEnv } from "./src/utils/getEnv";
 // 用于生成 svg 雪碧图
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+// 注入网页标题
+import { createHtmlPlugin } from "vite-plugin-html";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -44,6 +46,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			createSvgIconsPlugin({
 				iconDirs: [resolve(process.cwd(), "src/assets/icons")],
 				symbolId: "icon-[dir]-[name]"
+			}),
+			createHtmlPlugin({
+				inject: {
+					data: {
+						title: viteEnv.VITE_GLOB_APP_TITLE
+					}
+				}
 			})
 		],
 		server: {
