@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 // css
 import "./styles/index.scss";
+// unocss
+// import "uno.css";
 // element icons
 import * as Icons from "@element-plus/icons-vue";
 // custom directives
