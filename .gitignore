@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/src/typings/components.d.ts
+pnpm-lock.yaml
+tsconfig.tsbuildinfo

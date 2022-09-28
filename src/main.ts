@@ -5,7 +5,6 @@ import * as Icons from "@element-plus/icons-vue";
 import "./styles/reset.scss";
 import "./styles/common.scss";
 import "./assets/iconfont/iconfont.scss";
-import "./assets/fonts/font.scss";
 import "element-plus/dist/index.css";
 // element dark(内置暗黑模式)
 import "element-plus/theme-chalk/dark/css-vars.css";
