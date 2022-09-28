@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { User } from "@/api/interface";
+import { User } from "@/api/types";
 import { ref, reactive } from "vue";
 import { genderType } from "@/utils/serviceDict";
 import { ElMessage, FormInstance } from "element-plus";

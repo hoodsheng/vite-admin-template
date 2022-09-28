@@ -1,4 +1,4 @@
-import { ResPage, User } from "@/api/interface/index";
+import { ResPage, User } from "@/api/types/index";
 import { PORT1 } from "@/api/config/servicePort";
 
 import http from "@/api";

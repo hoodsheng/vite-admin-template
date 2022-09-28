@@ -9,6 +9,12 @@ import { wrapperEnv } from "./src/utils/getEnv";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 // 注入网页标题
 import { createHtmlPlugin } from "vite-plugin-html";
+// 打包分析插件
+import { visualizer } from "rollup-plugin-visualizer";
+// name 可以写在 script 标签上
+import VueSetupExtend from "vite-plugin-vue-setup-extend";
+// gzip压缩
+import viteCompression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -53,8 +59,47 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 						title: viteEnv.VITE_GLOB_APP_TITLE
 					}
 				}
-			})
+			}),
+			viteEnv.VITE_REPORT &&
+				visualizer({
+					gzipSize: true,
+					brotliSize: true
+				}),
+			// * gzip compress
+			viteEnv.VITE_BUILD_GZIP &&
+				viteCompression({
+					verbose: true,
+					disable: false,
+					threshold: 10240,
+					algorithm: "gzip",
+					ext: ".gz"
+				}),
+			VueSetupExtend()
 		],
+		// * 打包去除 console.log && debugger
+		esbuild: {
+			pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : []
+		},
+		build: {
+			outDir: "dist",
+			minify: "esbuild",
+			// esbuild 打包更快，但是不能去除 console.log，terser打包慢，但能去除 console.log
+			// minify: "terser",
+			// terserOptions: {
+			// 	compress: {
+			// 		drop_console: viteEnv.VITE_DROP_CONSOLE,
+			// 		drop_debugger: true
+			// 	}
+			// },
+			rollupOptions: {
+				output: {
+					// Static resource classification and packaging
+					chunkFileNames: "assets/js/[name]-[hash].js",
+					entryFileNames: "assets/js/[name]-[hash].js",
+					assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
+				}
+			}
+		},
 		server: {
 			host: "0.0.0.0",
 			port: viteEnv.VITE_PORT,
