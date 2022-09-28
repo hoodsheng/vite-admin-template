@@ -6,14 +6,15 @@
 	"author": "hoodsheng <hoodsheng@163.com>",
 	"scripts": {
 		"dev": "vite",
-		"build": "vue-tsc --noEmit && vite build",
+		"build:dev": "vue-tsc --noEmit && vite build --mode development",
+		"build:test": "vue-tsc --noEmit && vite build --mode test",
+		"build:pro": "vue-tsc --noEmit && vite build --mode production",
 		"preview": "vite preview",
 		"lint:eslint": "eslint --fix --ext .js,.ts,.vue ./src",
 		"lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
 		"lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
 		"lint:lint-staged": "lint-staged",
 		"prepare": "husky install",
-		"release": "standard-version",
 		"commit": "git pull && git add -A && git-cz && git push"
 	},
 	"dependencies": {
