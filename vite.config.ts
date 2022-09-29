@@ -15,8 +15,6 @@ import { visualizer } from "rollup-plugin-visualizer";
 import VueSetupExtend from "vite-plugin-vue-setup-extend";
 // gzip压缩
 import viteCompression from "vite-plugin-compression";
-// CSS原子化
-import unocss from "@unocss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -76,8 +74,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 					algorithm: "gzip",
 					ext: ".gz"
 				}),
-			VueSetupExtend(),
-			unocss()
+			VueSetupExtend()
 		],
 		// * 打包去除 console.log && debugger
 		esbuild: {
