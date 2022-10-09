@@ -22,25 +22,22 @@
 				</div>
 			</el-scrollbar>
 		</div>
-		<el-aside>
-			<div class="menu" :style="{ width: isCollapse ? '65px' : '200px' }">
-				<div class="logo flx-center">
-					<span v-show="isCollapse">G</span>
-					<span v-show="!isCollapse">Geeker Admin</span>
-				</div>
-				<el-scrollbar>
-					<el-menu
-						:default-active="activeMenu"
-						:router="false"
-						:collapse="isCollapse"
-						:collapse-transition="false"
-						:unique-opened="true"
-						background-color="#ffffff"
-					>
-						<SubMenu :menuList="subMenu" />
-					</el-menu>
-				</el-scrollbar>
+		<el-aside :class="{ 'not-aside': !subMenu.length }" :style="{ width: isCollapse ? '65px' : '220px' }">
+			<div class="logo flx-center">
+				<span v-show="subMenu.length">{{ isCollapse ? "G" : "Geeker Admin" }}</span>
 			</div>
+			<el-scrollbar>
+				<el-menu
+					:default-active="activeMenu"
+					:router="false"
+					:collapse="isCollapse"
+					:collapse-transition="false"
+					:unique-opened="true"
+					background-color="#ffffff"
+				>
+					<SubMenu :menuList="subMenu" />
+				</el-menu>
+			</el-scrollbar>
 		</el-aside>
 		<el-container>
 			<el-header>
@@ -80,7 +77,7 @@ watch(
 		splitActive.value = route.path;
 		const menuItem = menuList.value.filter((item: Menu.MenuOptions) => route.path.includes(item.path));
 		if (menuItem[0].children?.length) return (subMenu.value = menuItem[0].children);
-		subMenu.value = [menuItem[0]];
+		subMenu.value = [];
 	},
 	{
 		deep: true,
@@ -91,7 +88,7 @@ watch(
 const changeSubMenu = (item: Menu.MenuOptions) => {
 	splitActive.value = item.path;
 	if (item.children?.length) return (subMenu.value = item.children);
-	subMenu.value = [item];
+	subMenu.value = [];
 	router.push({ path: item.path });
 };
 </script>
@@ -107,7 +104,7 @@ const changeSubMenu = (item: Menu.MenuOptions) => {
 		display: flex;
 		flex-direction: column;
 		flex-shrink: 0;
-		width: 75px;
+		width: 70px;
 		height: 100%;
 		background-color: #191a20;
 		border-right: 1px solid #ffffff;
@@ -139,8 +136,9 @@ const changeSubMenu = (item: Menu.MenuOptions) => {
 						font-size: 21px;
 					}
 					.title {
-						margin-top: 7px;
+						margin-top: 6px;
 						font-size: 12px;
+						transform: scale(0.96);
 					}
 					.el-icon,
 					.title {
@@ -158,35 +156,34 @@ const changeSubMenu = (item: Menu.MenuOptions) => {
 		}
 	}
 	.el-aside {
-		width: auto;
-		overflow: inherit;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
 		background-color: #ffffff;
 		border-right: 1px solid #f0eded;
-		.menu {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			overflow: hidden;
-			transition: all 0.3s ease;
-			.el-scrollbar {
-				height: calc(100% - 55px);
-				.el-menu {
-					overflow-x: hidden;
-					border-right: none;
-				}
-			}
-			.logo {
-				box-sizing: border-box;
-				height: 55px;
-				border-bottom: 1px solid #f0eded;
-				span {
-					font-size: 24px;
-					font-weight: bold;
-					color: var(--el-menu-text-color);
-					white-space: nowrap;
-				}
+		transition: all 0.3s ease;
+		.el-scrollbar {
+			height: calc(100% - 55px);
+			.el-menu {
+				overflow-x: hidden;
+				border-right: none;
 			}
 		}
+		.logo {
+			box-sizing: border-box;
+			height: 55px;
+			border-bottom: 1px solid #f0eded;
+			span {
+				font-size: 24px;
+				font-weight: bold;
+				color: var(--el-menu-text-color);
+				white-space: nowrap;
+			}
+		}
+	}
+	.not-aside {
+		width: 0 !important;
 	}
 	.el-header {
 		box-sizing: border-box;
@@ -196,7 +193,7 @@ const changeSubMenu = (item: Menu.MenuOptions) => {
 		height: 55px;
 		padding: 0 15px;
 		background-color: #ffffff;
-		border-bottom: 1px solid #f6f6f6;
+		border-bottom: 1px solid #f1f1f1;
 		:deep(.tool-bar-ri) {
 			.toolBar-icon,
 			.username {

@@ -82,7 +82,7 @@ const menuList = computed(() => menuStore.menuList);
 		height: 55px;
 		padding: 0 15px 0 0;
 		background-color: #191a20;
-		border-bottom: 1px solid #f6f6f6;
+		border-bottom: 1px solid #f1f1f1;
 		.logo {
 			width: 220px;
 			margin-right: 30px;
@@ -110,6 +110,9 @@ const menuList = computed(() => menuStore.menuList);
 					background-color: var(--el-color-primary) !important;
 					border-bottom-color: var(--el-color-primary) !important;
 				}
+				&:hover {
+					color: #ffffff !important;
+				}
 			}
 		}
 		:deep(.tool-bar-ri) {
@@ -136,6 +139,7 @@ const menuList = computed(() => menuStore.menuList);
 	.el-menu--popup {
 		.el-menu-item {
 			&.is-active {
+				color: #ffffff;
 				background: #060708;
 				&::before {
 					position: absolute;

@@ -22,6 +22,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 	const viteEnv = wrapperEnv(env);
 	// console.log(viteEnv);
 	return {
+		base: "./",
 		// 别名配置
 		resolve: {
 			alias: {
@@ -91,6 +92,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// 		drop_debugger: true
 			// 	}
 			// },
+			chunkSizeWarningLimit: 1500,
 			rollupOptions: {
 				output: {
 					// Static resource classification and packaging

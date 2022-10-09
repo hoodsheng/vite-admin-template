@@ -99,7 +99,7 @@ const isCollapse = computed(() => menuStore.isCollapse);
 		height: 55px;
 		padding: 0 15px;
 		background-color: #ffffff;
-		border-bottom: 1px solid #f6f6f6;
+		border-bottom: 1px solid #f1f1f1;
 		:deep(.tool-bar-ri) {
 			.toolBar-icon,
 			.username {
