@@ -90,7 +90,7 @@
 <script setup lang="ts" name="searchFormItem">
 import { ColumnProps } from "@/components/ProTable/interface";
 
-interface SearchFormItem {
+export interface SearchFormItem {
 	item: Partial<ColumnProps>; // 具体每一个搜索项的配置
 	searchParam: any; // 搜索参数
 }

@@ -21,6 +21,17 @@ const proTableRouter: Array<RouteRecordRaw> = [
 					title: "使用 Hooks",
 					key: "useHooks"
 				}
+			},
+			{
+				path: "/proTable/useComponent",
+				name: "useComponent",
+				component: () => import("@/views/proTable/useComponent/index.vue"),
+				meta: {
+					keepAlive: true,
+					requiresAuth: true,
+					title: "使用 Component",
+					key: "useComponent"
+				}
 			}
 		]
 	}

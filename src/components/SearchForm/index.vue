@@ -26,7 +26,7 @@ import { ColumnProps } from "@/components/ProTable/interface";
 import SearchFormItem from "./components/SearchFormItem.vue";
 import { Delete, Search, ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 
-interface ProTableProps {
+export interface ProTableProps {
 	columns: Partial<ColumnProps>[]; // 搜索配置列
 	searchParam: any; // 搜索参数
 	search: (params: any) => void; // 搜索方法

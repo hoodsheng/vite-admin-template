@@ -127,7 +127,7 @@ const tableRef = ref();
 // 是否显示搜索模块
 const isShowSearch = ref<boolean>(true);
 
-interface ProTableProps {
+type ProTableProps = {
 	columns: Partial<ColumnProps>[]; // 列配置项
 	requestApi: (params: any) => Promise<any>; // 请求表格数据的api ==> 必传
 	dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理
@@ -138,7 +138,7 @@ interface ProTableProps {
 	toolButton?: boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
 	childrenName?: string; // 当数据存在 children 时，指定 children key 名字 ==> 非必传（默认为"children"）
 	selectId?: string; // 当表格可以多选时，所指定的 id ==> 非必传（默认为 id）
-}
+};
 
 // 接受父组件参数，配置默认值
 const props = withDefaults(defineProps<ProTableProps>(), {

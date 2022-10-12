@@ -1,5 +1,7 @@
 import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+// 支持jsx语法
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path";
 // Element-Plus按需引入
 import Components from "unplugin-vue-components/vite";
@@ -40,6 +42,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		// 插件扩展
 		plugins: [
 			vue(),
+			// * vite 可以使用 jsx/tsx 语法
+			vueJsx(),
 			Components({
 				dts: "src/typings/components.d.ts",
 				types: [{ from: "vue-router", names: ["RouterLink", "RouterView"] }],
