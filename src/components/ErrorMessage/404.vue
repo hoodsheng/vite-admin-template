@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts" name="404">
-import { TabsStore } from "@/store/modules/tabs";
+import { TabsStore } from "@/stores/modules/tabs";
 const tabStore = TabsStore();
 </script>
 

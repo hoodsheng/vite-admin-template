@@ -106,8 +106,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useTheme } from "@/hooks/useTheme";
-import { MenuStore } from "@/store/modules/menu";
-import { GlobalStore } from "@/store";
+import { MenuStore } from "@/stores/modules/menu";
+import { GlobalStore } from "@/stores";
 import { DEFAULT_PRIMARY } from "@/config/baseconfig";
 import SwitchDark from "@/components/SwitchDark/index.vue";
 import mittBus from "@/utils/mittBus";

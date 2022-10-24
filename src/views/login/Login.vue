@@ -50,7 +50,7 @@ import { ElMessage } from "element-plus";
 import { Login } from "@/api/types";
 import { loginApi } from "@/api/modules/login";
 import md5 from "js-md5";
-import { GlobalStore } from "@/store";
+import { GlobalStore } from "@/stores";
 
 const router = useRouter();
 const globalStore = GlobalStore();

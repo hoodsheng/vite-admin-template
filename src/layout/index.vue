@@ -9,9 +9,9 @@
 import { ref, computed, onMounted } from "vue";
 import { getAuthButtons, getMenuList } from "@/api/modules/login";
 import { handleRouter } from "@/utils/util";
-import { GlobalStore } from "@/store";
-import { MenuStore } from "@/store/modules/menu";
-import { AuthStore } from "@/store/modules/auth";
+import { GlobalStore } from "@/stores";
+import { MenuStore } from "@/stores/modules/menu";
+import { AuthStore } from "@/stores/modules/auth";
 import ThemeDrawer from "./components/ThemeDrawer/index.vue";
 import LayoutVertical from "./LayoutVertical/index.vue";
 import LayoutClassic from "./LayoutClassic/index.vue";

@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { TabsStore } from "@/store/modules/tabs";
+import { TabsStore } from "@/stores/modules/tabs";
 import { TabsPaneContext } from "element-plus";
 import MoreButton from "./MoreButton.vue";
 

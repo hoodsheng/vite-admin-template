@@ -1,8 +1,8 @@
 import router from "@/routers/router";
 import NProgress from "@/utils/nprogress";
 import { AxiosCanceler } from "@/api/helper/axiosCancel";
-import { GlobalStore } from "@/store";
-import { AuthStore } from "@/store/modules/auth";
+import { GlobalStore } from "@/stores";
+import { AuthStore } from "@/stores/modules/auth";
 import { HOME_URL } from "@/config/baseconfig";
 
 const axiosCanceler = new AxiosCanceler();

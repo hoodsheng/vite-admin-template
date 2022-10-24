@@ -8,8 +8,8 @@ import * as Icons from "@element-plus/icons-vue";
 import directives from "./directives/index";
 // vue Router
 import router from "@/routers";
-// pinia store
-import pinia from "@/store";
+// pinia stores
+import pinia from "@/stores";
 // svg-icons
 import "virtual:svg-icons-register";
 

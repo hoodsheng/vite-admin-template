@@ -23,7 +23,7 @@ import InfoDialog from "./InfoDialog.vue";
 import PasswordDialog from "./PasswordDialog.vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import { GlobalStore } from "@/store";
+import { GlobalStore } from "@/stores";
 
 const router = useRouter();
 const globalStore = GlobalStore();

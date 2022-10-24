@@ -49,7 +49,7 @@
 <script setup lang="ts" name="layoutTransverse">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { MenuStore } from "@/store/modules/menu";
+import { MenuStore } from "@/stores/modules/menu";
 import { useRouter } from "vue-router";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarRight from "@/layout/components/header/ToolBarRight.vue";

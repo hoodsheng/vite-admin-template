@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { TabsStore } from "@/store/modules/tabs";
+import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL } from "@/config/baseconfig";
 const tabStore = TabsStore();
 

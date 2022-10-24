@@ -52,7 +52,7 @@
 <script setup lang="ts" name="layoutColumns">
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MenuStore } from "@/store/modules/menu";
+import { MenuStore } from "@/stores/modules/menu";
 import { TABS_WHITE_LIST } from "@/config/baseconfig";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarLeft from "@/layout/components/header/ToolBarLeft.vue";

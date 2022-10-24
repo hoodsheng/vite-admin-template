@@ -36,7 +36,7 @@
 <script setup lang="ts" name="layoutVertical">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { MenuStore } from "@/store/modules/menu";
+import { MenuStore } from "@/stores/modules/menu";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarLeft from "@/layout/components/header/ToolBarLeft.vue";
 import ToolBarRight from "@/layout/components/header/ToolBarRight.vue";

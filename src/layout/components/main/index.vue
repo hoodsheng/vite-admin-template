@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, computed, nextTick, provide } from "vue";
-import { GlobalStore } from "@/store";
+import { GlobalStore } from "@/stores";
 import cacheRouter from "@/routers/cacheRouter";
 import Tabs from "@/layout/components/tab/Tabs.vue";
 
