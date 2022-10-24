@@ -6,7 +6,7 @@ import { resolve } from "path";
 // Element-Plus按需引入
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import { wrapperEnv } from "./src/utils/getEnv";
+import { wrapperEnv } from "@/utils/getEnv";
 // 用于生成 svg 雪碧图
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 // 注入网页标题
@@ -49,7 +49,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 				types: [{ from: "vue-router", names: ["RouterLink", "RouterView"] }],
 				resolvers: [
 					ElementPlusResolver({
-						importStyle: "sass"
+						importStyle: false
 					})
 				]
 			}),
