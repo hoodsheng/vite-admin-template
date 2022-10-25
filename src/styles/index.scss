@@ -1,7 +1,20 @@
+// 初始化样式
 @import "./reset.scss";
+
+// 自定义基础样式
 @import "./common.scss";
-@import "./theme/element-dark.scss";
-@import "./element.scss";
+
+// iconfont库
 @import "../assets/iconfont/iconfont.scss";
+
+// element-plus 默认样式
 @import "element-plus/dist/index.css";
+
+// 自定义element-plus样式
+@import "./element.scss";
+
+// element-plus 默认暗黑风格样式
 @import "element-plus/theme-chalk/dark/css-vars.css";
+
+// element-plus 自定义暗黑风格样式
+@import "./theme/element-dark.scss";

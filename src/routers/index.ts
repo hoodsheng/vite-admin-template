@@ -1,7 +1,7 @@
 import router from "@/routers/router";
 import NProgress from "@/utils/nprogress";
 import { AxiosCanceler } from "@/api/helper/axiosCancel";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 import { AuthStore } from "@/stores/modules/auth";
 import { HOME_URL } from "@/config/baseconfig";
 
@@ -15,7 +15,7 @@ router.beforeEach((to, from, next) => {
 	axiosCanceler.removeAllPending();
 	// 判断权限
 	if (!to.matched.some(record => record.meta.requiresAuth)) return next();
-	const globalStore = GlobalStore();
+	const globalStore = useGlobalStore();
 	if (!globalStore.token) {
 		next({
 			path: "/login"

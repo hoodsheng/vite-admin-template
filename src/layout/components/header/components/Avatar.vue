@@ -23,10 +23,10 @@ import InfoDialog from "./InfoDialog.vue";
 import PasswordDialog from "./PasswordDialog.vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 
 const router = useRouter();
-const globalStore = GlobalStore();
+const globalStore = useGlobalStore();
 
 // 退出登录
 const logout = () => {

@@ -13,11 +13,11 @@
 
 <script setup lang="ts">
 import { ref, computed, nextTick, provide } from "vue";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 import cacheRouter from "@/routers/cacheRouter";
 import Tabs from "@/layout/components/tab/Tabs.vue";
 
-const globalStore = GlobalStore();
+const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 
 // 刷新当前页面

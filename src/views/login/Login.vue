@@ -50,10 +50,10 @@ import { ElMessage } from "element-plus";
 import { Login } from "@/api/types";
 import { loginApi } from "@/api/modules/login";
 import md5 from "js-md5";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 
 const router = useRouter();
-const globalStore = GlobalStore();
+const globalStore = useGlobalStore();
 
 const loginFormRef = ref<FormInstance>();
 // 提交时加载loading

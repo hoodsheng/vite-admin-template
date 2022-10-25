@@ -7,8 +7,6 @@ import { resolve } from "path";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { wrapperEnv } from "@/utils/getEnv";
-// 用于生成 svg 雪碧图
-import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 // 注入网页标题
 import { createHtmlPlugin } from "vite-plugin-html";
 // 打包分析插件
@@ -52,11 +50,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 						importStyle: false
 					})
 				]
-			}),
-			// * 使用 svg 图标
-			createSvgIconsPlugin({
-				iconDirs: [resolve(process.cwd(), "src/assets/icons")],
-				symbolId: "icon-[dir]-[name]"
 			}),
 			createHtmlPlugin({
 				inject: {
@@ -114,7 +107,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// 代理跨域（mock 不需要配置跨域，直接能访问，这里只是个示例）
 			proxy: {
 				"/api": {
-					// target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0", // fastmock
+					// target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0",
 					target: "https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e", // easymock
 					changeOrigin: true,
 					rewrite: path => path.replace(/^\/api/, "")

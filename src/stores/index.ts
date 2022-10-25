@@ -6,7 +6,6 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 // defineStore 调用后返回一个函数，调用该函数获得 Store 实体
 export const useGlobalStore = defineStore("global", {
-	// state: 返回对象的函数
 	state: (): GlobalState => ({
 		// token
 		token: "",
@@ -37,10 +36,6 @@ export const useGlobalStore = defineStore("global", {
 		// 设置token
 		setToken(token: string) {
 			this.token = token;
-		},
-		// 设置用户信息
-		setUserInfo(userInfo: any) {
-			this.userInfo = userInfo;
 		},
 		// 主题配置
 		setThemeConfig(themeConfig: ThemeConfigProp) {

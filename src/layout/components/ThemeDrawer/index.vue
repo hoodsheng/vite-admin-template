@@ -107,7 +107,7 @@
 import { ref, computed, watch } from "vue";
 import { useTheme } from "@/hooks/useTheme";
 import { MenuStore } from "@/stores/modules/menu";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 import { DEFAULT_PRIMARY } from "@/config/baseconfig";
 import SwitchDark from "@/components/SwitchDark/index.vue";
 import mittBus from "@/utils/mittBus";
@@ -139,7 +139,7 @@ const isCollapse = computed({
 	}
 });
 
-const globalStore = GlobalStore();
+const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 
 // 切换布局方式

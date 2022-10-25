@@ -1,6 +1,6 @@
 import { computed, onBeforeMount } from "vue";
 import { getLightColor, getDarkColor } from "@/utils/theme/tool";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 import { DEFAULT_PRIMARY } from "@/config/baseconfig";
 import { ElMessage } from "element-plus";
 
@@ -8,7 +8,7 @@ import { ElMessage } from "element-plus";
  * @description 切换主题
  * */
 export const useTheme = () => {
-	const globalStore = GlobalStore();
+	const globalStore = useGlobalStore();
 	const themeConfig = computed(() => globalStore.themeConfig);
 
 	// 切换暗黑模式

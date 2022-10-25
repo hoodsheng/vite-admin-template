@@ -9,7 +9,7 @@
 import { ref, computed, onMounted } from "vue";
 import { getAuthButtons, getMenuList } from "@/api/modules/login";
 import { handleRouter } from "@/utils/util";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores";
 import { MenuStore } from "@/stores/modules/menu";
 import { AuthStore } from "@/stores/modules/auth";
 import ThemeDrawer from "./components/ThemeDrawer/index.vue";
@@ -27,7 +27,7 @@ const LayoutComponents: any = {
 
 const menuStore = MenuStore();
 const authStore = AuthStore();
-const globalStore = GlobalStore();
+const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 const isCollapse = computed((): boolean => menuStore.isCollapse);
 
