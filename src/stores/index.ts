@@ -1,5 +1,5 @@
 import { defineStore, createPinia } from "pinia";
-import { GlobalState, ThemeConfigProp } from "./types";
+import { GlobalState, ThemeConfigProps } from "./types";
 import { DEFAULT_PRIMARY } from "@/config/baseconfig";
 import piniaPersistConfig from "@/config/piniaPersistConfig";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
@@ -23,12 +23,18 @@ export const useGlobalStore = defineStore("global", {
 			isGrey: false,
 			// 色弱模式
 			isWeak: false,
+			// 折叠菜单
+			isCollapse: false,
 			// 面包屑导航
 			breadcrumb: true,
+			// 面包屑导航图标
+			breadcrumbIcon: true,
 			// 标签页
 			tabs: true,
-			// 页脚
-			footer: true
+			// 标签页图标
+			tabsIcon: true,
+			// 当前页面是否全屏
+			maximize: false
 		}
 	}),
 	getters: {},
@@ -38,7 +44,7 @@ export const useGlobalStore = defineStore("global", {
 			this.token = token;
 		},
 		// 主题配置
-		setThemeConfig(themeConfig: ThemeConfigProp) {
+		setThemeConfig(themeConfig: ThemeConfigProps) {
 			this.themeConfig = themeConfig;
 		}
 	},

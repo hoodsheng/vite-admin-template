@@ -8,8 +8,13 @@ import * as Icons from "@element-plus/icons-vue";
 import router from "@/routers";
 // pinia stores
 import pinia from "@/stores";
+// 全局错误捕获
+import errorHandler from "@/utils/errorHandler";
 
 const app = createApp(App);
+
+app.config.errorHandler = errorHandler;
+
 // 注册element Icons组件
 Object.keys(Icons).forEach(key => {
 	app.component(key, Icons[key as keyof typeof Icons]);

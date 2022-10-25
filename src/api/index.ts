@@ -7,6 +7,7 @@ import { checkStatus } from "./helper/checkStatus";
 import { ElMessage } from "element-plus";
 import { useGlobalStore } from "@/stores";
 import router from "@/routers";
+import { LOGIN_URL } from "@/config/baseconfig";
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -57,12 +58,10 @@ class RequestHttp {
 				axiosCanceler.removePending(config);
 				tryHideFullScreenLoading();
 				// * 登陆失效（code == 599）
-				if (data.code == ResultEnum.OVERDUE) {
+				if (data.code === ResultEnum.OVERDUE) {
 					ElMessage.error(data.msg);
 					globalStore.setToken("");
-					router.replace({
-						path: "/login"
-					});
+					router.replace(LOGIN_URL);
 					return Promise.reject(data);
 				}
 				// * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
@@ -73,7 +72,7 @@ class RequestHttp {
 				// * 成功请求（在页面上除非特殊情况，否则不用处理失败逻辑）
 				return data;
 			},
-			async (error: AxiosError) => {
+			(error: AxiosError) => {
 				const { response } = error;
 				tryHideFullScreenLoading();
 				// 请求超时单独判断，因为请求超时没有 response

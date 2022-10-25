@@ -1,38 +1,44 @@
 /* themeConfigProp */
-export interface ThemeConfigProp {
+export interface ThemeConfigProps {
 	layout: string;
 	primary: string;
 	isDark: boolean;
 	isGrey: boolean;
+	isCollapse: boolean;
 	isWeak: boolean;
 	breadcrumb: boolean;
+	breadcrumbIcon: boolean;
 	tabs: boolean;
-	footer: boolean;
+	tabsIcon: boolean;
+	maximize: boolean;
 }
 
 /* GlobalState */
 export interface GlobalState {
 	token: string;
 	userInfo: any;
-	themeConfig: ThemeConfigProp;
+	themeConfig: ThemeConfigProps;
 }
 
-/* MenuState */
-export interface MenuState {
-	isCollapse: boolean;
-	menuList: Menu.MenuOptions[];
+/* tabsMenuProps */
+export interface TabsMenuProps {
+	icon: string;
+	title: string;
+	path: string;
+	close: boolean;
 }
 
 /* TabsState */
 export interface TabsState {
-	tabsMenuValue: string;
-	tabsMenuList: TabsOptions[];
+	tabsMenuList: TabsMenuProps[];
 }
 
 /* AuthState */
 export interface AuthState {
-	authButtons: {
-		[key: string]: any;
+	authButtonList: {
+		[key: string]: {
+			[key: string]: boolean;
+		};
 	};
-	authRouter: string[];
+	authMenuList: Menu.MenuOptions[];
 }

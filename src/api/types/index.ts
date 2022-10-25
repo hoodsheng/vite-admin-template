@@ -2,7 +2,15 @@
 export interface Result<T> {
 	code: string;
 	msg: string;
-	data?: T;
+	data: T;
+}
+
+// * 分页响应参数
+export interface ResPage<T> {
+	datalist: T[];
+	pageNum: number;
+	pageSize: number;
+	total: number;
 }
 
 // * 分页响应参数
@@ -29,7 +37,9 @@ export namespace Login {
 		access_token: string;
 	}
 	export interface ResAuthButtons {
-		[key: string]: any;
+		[key: string]: {
+			[key: string]: boolean;
+		};
 	}
 }
 

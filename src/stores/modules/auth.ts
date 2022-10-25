@@ -1,35 +1,39 @@
 import { defineStore } from "pinia";
 import { AuthState } from "../types";
+import { getAuthButtonListApi, getAuthMenuListApi } from "@/api/modules/login";
+import { getKeepAliveRouterName, getShowMenuList, getAllBreadcrumbList } from "@/utils/util";
 import piniaPersistConfig from "@/config/piniaPersistConfig";
 
-// AuthStore
-export const AuthStore = defineStore({
-	id: "AuthState",
+// useAuthStore
+export const useAuthStore = defineStore("auth", {
 	state: (): AuthState => ({
-		// 用户按钮权限列表
-		authButtons: {},
-		// 路由权限列表
-		authRouter: []
+		authButtonList: {},
+		// menuList 作为动态路由，不会做持久化存储
+		authMenuList: []
 	}),
 	getters: {
-		// 处理权限按钮数据，用于方便控制按钮
-		authButtonsObj: state => {
-			return state.authButtons;
-		},
-		// 后台返回的菜单数据，用于方便控制路由跳转时权限（这里已经处理成一维数组了）
-		dynamicRouter: state => {
-			return state.authRouter;
-		}
+		// 按钮权限列表
+		authButtonListGet: state => state.authButtonList,
+		// 后端返回的菜单列表
+		authMenuListGet: state => state.authMenuList,
+		// 后端返回的菜单列表 ==> 左侧菜单栏渲染，需要去除 isHide == true
+		showMenuListGet: state => getShowMenuList(state.authMenuList),
+		// 面包屑导航列表
+		breadcrumbListGet: state => getAllBreadcrumbList(state.authMenuList),
+		// 需要缓存的菜单 name，用作页面 keepAlive
+		keepAliveRouterGet: state => getKeepAliveRouterName(state.authMenuList)
 	},
 	actions: {
-		// setAuthButtons
-		async setAuthButtons(authButtonList: { [key: string]: any }) {
-			this.authButtons = authButtonList;
+		// getAuthButtonList
+		async getAuthButtonList() {
+			const { data } = await getAuthButtonListApi();
+			this.authButtonList = data;
 		},
-		// setAuthRouter
-		async setAuthRouter(dynamicRouter: string[]) {
-			this.authRouter = dynamicRouter;
+		// getAuthMenuList
+		async getAuthMenuList() {
+			const { data } = await getAuthMenuListApi();
+			this.authMenuList = data;
 		}
 	},
-	persist: piniaPersistConfig("AuthState")
+	persist: piniaPersistConfig("AuthState", ["authButtonList"])
 });

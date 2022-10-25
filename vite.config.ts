@@ -6,7 +6,7 @@ import { resolve } from "path";
 // Element-Plus按需引入
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import { wrapperEnv } from "@/utils/getEnv";
+import { wrapperEnv } from "./src/utils/getEnv";
 // 注入网页标题
 import { createHtmlPlugin } from "vite-plugin-html";
 // 打包分析插件

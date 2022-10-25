@@ -81,9 +81,9 @@ const login = (formEl: FormInstance | undefined) => {
 			};
 			const res = await loginApi(requestLoginForm);
 			// * 存储 token
-			globalStore.setToken(res.data!.access_token);
+			globalStore.setToken(res.data.access_token);
 			ElMessage.success("登录成功！");
-			router.push("/home/index");
+			await router.push("/home/index");
 		} finally {
 			loading.value = false;
 		}
@@ -97,7 +97,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 onMounted(() => {
 	// 监听enter事件（调用登录）
 	document.onkeydown = (e: any) => {
-		e = window.event || e;
 		if (e.code === "Enter" || e.code === "enter" || e.code === "NumpadEnter") {
 			if (loading.value) return;
 			login(loginFormRef.value);
@@ -115,7 +114,6 @@ onMounted(() => {
 	background-color: #eeeeee;
 	background-image: url("@/assets/images/login_bg.svg");
 	background-position: 50%;
-	background-size: 100% 100%;
 	background-size: cover;
 	.dark {
 		position: absolute;

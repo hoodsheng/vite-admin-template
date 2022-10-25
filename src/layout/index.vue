@@ -6,12 +6,9 @@
 </template>
 
 <script setup lang="ts" name="layout">
-import { ref, computed, onMounted } from "vue";
-import { getAuthButtons, getMenuList } from "@/api/modules/login";
-import { handleRouter } from "@/utils/util";
+import { ref, computed } from "vue";
 import { useGlobalStore } from "@/stores";
 import { MenuStore } from "@/stores/modules/menu";
-import { AuthStore } from "@/stores/modules/auth";
 import ThemeDrawer from "./components/ThemeDrawer/index.vue";
 import LayoutVertical from "./LayoutVertical/index.vue";
 import LayoutClassic from "./LayoutClassic/index.vue";
@@ -26,29 +23,9 @@ const LayoutComponents: any = {
 };
 
 const menuStore = MenuStore();
-const authStore = AuthStore();
 const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 const isCollapse = computed((): boolean => menuStore.isCollapse);
-
-onMounted(() => {
-	getAuthButtonsList();
-	getMenus();
-});
-
-// 获取按钮权限列表
-const getAuthButtonsList = async () => {
-	const { data } = await getAuthButtons();
-	data && authStore.setAuthButtons(data);
-};
-
-// 获取菜单列表中
-const getMenus = async () => {
-	const { data } = await getMenuList();
-	// 把路由菜单处理成一维数组（存储到 pinia ）
-	data && authStore.setAuthRouter(handleRouter(data));
-	data && menuStore.setMenuList(data);
-};
 
 // 监听窗口大小变化，折叠 aside
 const screenWidth = ref<number>(0);
@@ -56,8 +33,8 @@ const listeningWindow = () => {
 	window.onresize = () => {
 		return (() => {
 			screenWidth.value = document.body.clientWidth;
-			if (isCollapse.value === false && screenWidth.value < 1200) menuStore.setCollapse();
-			if (isCollapse.value === true && screenWidth.value > 1200) menuStore.setCollapse();
+			if (!isCollapse.value && screenWidth.value < 1200) menuStore.setCollapse();
+			if (isCollapse.value && screenWidth.value > 1200) menuStore.setCollapse();
 		})();
 	};
 };

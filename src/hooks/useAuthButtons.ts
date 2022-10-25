@@ -1,4 +1,4 @@
-import { AuthStore } from "@/stores/modules/auth";
+import { useAuthStore } from "@/stores/modules/auth";
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -15,7 +15,7 @@ export const useAuthButtons = () => {
 
 	// 当前页按钮权限列表
 	const BUTTONS = computed(() => {
-		const authStore = AuthStore();
+		const authStore = useAuthStore();
 		// 未获取接口数据前，设为空对象，否则报错
 		return authStore.authButtonsObj[nowKey.value] || {};
 	});
