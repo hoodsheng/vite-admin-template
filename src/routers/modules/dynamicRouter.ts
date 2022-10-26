@@ -29,9 +29,9 @@ export const initDynamicRouter = async () => {
 			router.replace(LOGIN_URL);
 			return Promise.reject("No permission");
 		}
-
 		// 3.添加动态路由 (getFlatArr 方法把菜单全部处理成一维数组，方便添加动态路由)
 		let dynamicRouter = getFlatArr(JSON.parse(JSON.stringify(authStore.authMenuListGet)));
+		// console.log(dynamicRouter);
 		dynamicRouter.forEach((item: any) => {
 			if (item.children) delete item.children;
 			if (item.component) item.component = modules["/src/views" + item.component + ".vue"];

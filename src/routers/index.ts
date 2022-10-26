@@ -51,7 +51,6 @@ router.beforeEach(async (to, from, next) => {
 
 	// 5.如果没有菜单列表，就重新请求菜单列表并添加动态路由
 	const authStore = useAuthStore();
-	console.log(authStore.authMenuListGet.length);
 	if (!authStore.authMenuListGet.length) {
 		await initDynamicRouter();
 		return next({ ...to, replace: true });

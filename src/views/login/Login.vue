@@ -46,11 +46,14 @@ import SwitchDark from "@/components/SwitchDark/index.vue";
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import type { FormInstance } from "element-plus";
-import { ElMessage } from "element-plus";
+import { ElNotification } from "element-plus";
 import { Login } from "@/api/types";
 import { loginApi } from "@/api/modules/login";
 import md5 from "js-md5";
 import { useGlobalStore } from "@/stores";
+import { getTimeState } from "@/utils/util";
+import { HOME_URL } from "@/config/baseconfig";
+import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 
 const router = useRouter();
 const globalStore = useGlobalStore();
@@ -80,10 +83,15 @@ const login = (formEl: FormInstance | undefined) => {
 				password: md5(loginForm.password)
 			};
 			const res = await loginApi(requestLoginForm);
-			// * 存储 token
 			globalStore.setToken(res.data.access_token);
-			ElMessage.success("登录成功！");
-			await router.push("/home/index");
+			await initDynamicRouter();
+			router.push(HOME_URL);
+			ElNotification({
+				title: getTimeState(),
+				message: "欢迎登录 Hood-Admin",
+				type: "success",
+				duration: 3000
+			});
 		} finally {
 			loading.value = false;
 		}
