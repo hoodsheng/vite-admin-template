@@ -2,7 +2,7 @@
 <template>
 	<el-container class="layout-vertical">
 		<el-aside>
-			<div class="menu" :style="{ width: isCollapse ? '65px' : '220px' }">
+			<div class="menu" :style="{ width: isCollapse ? '65px' : '210px' }">
 				<div class="logo flx-center">
 					<img src="@/assets/images/logo.svg" alt="logo" />
 					<span v-show="!isCollapse">Hood Admin</span>
@@ -36,74 +36,45 @@
 <script setup lang="ts" name="layoutVertical">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { MenuStore } from "@/stores/modules/menu";
+import { useGlobalStore } from "@/stores";
+import { useAuthStore } from "@/stores/modules/auth";
+import SubMenu from "@/layout/components/menu/SubMenu.vue";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarLeft from "@/layout/components/header/ToolBarLeft.vue";
 import ToolBarRight from "@/layout/components/header/ToolBarRight.vue";
-import SubMenu from "@/layout/components/menu/SubMenu.vue";
 
 const route = useRoute();
-const menuStore = MenuStore();
+const authStore = useAuthStore();
+const globalStore = useGlobalStore();
+
+// 当前激活的路由
 const activeMenu = computed(() => route.path);
-const menuList = computed(() => menuStore.menuList);
-const isCollapse = computed(() => menuStore.isCollapse);
+// 展示的菜单列表
+const menuList = computed(() => authStore.showMenuListGet);
+// 是否展开/收缩
+const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 </script>
 
 <style scoped lang="scss">
-.layout-vertical {
-	min-width: 1030px;
-}
-.el-container {
-	width: 100%;
-	height: 100%;
-	.el-aside {
-		width: auto;
-		overflow: inherit;
-		background-color: #191a20;
-		border-right: 1px solid #191a20;
-		.menu {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			transition: all 0.3s ease;
-			.el-scrollbar {
-				height: calc(100% - 55px);
-				.el-menu {
-					overflow-x: hidden;
-					border-right: none;
+@import "./index.scss";
+</style>
+
+<style lang="scss">
+.vertical {
+	.el-menu,
+	.el-menu--popup {
+		.el-menu-item {
+			&.is-active {
+				background: #060708;
+				&::before {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					width: 4px;
+					content: "";
+					background: var(--el-color-primary);
 				}
-			}
-			.logo {
-				box-sizing: border-box;
-				height: 55px;
-				border-bottom: 1px solid #282a35;
-				span {
-					font-size: 22px;
-					font-weight: bold;
-					color: #dadada;
-					white-space: nowrap;
-				}
-				img {
-					width: 30px;
-					object-fit: contain;
-					margin-right: 8px;
-				}
-			}
-		}
-	}
-	.el-header {
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 55px;
-		padding: 0 15px;
-		background-color: #ffffff;
-		border-bottom: 1px solid #f1f1f1;
-		:deep(.tool-bar-ri) {
-			.toolBar-icon,
-			.username {
-				color: var(--el-text-color-primary);
 			}
 		}
 	}

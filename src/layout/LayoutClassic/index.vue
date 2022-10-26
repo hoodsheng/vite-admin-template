@@ -13,7 +13,7 @@
 		</el-header>
 		<el-container class="classic-bottom">
 			<el-aside>
-				<div class="menu" :style="{ width: isCollapse ? '65px' : '220px' }">
+				<div class="menu" :style="{ width: isCollapse ? '65px' : '210px' }">
 					<el-scrollbar>
 						<el-menu
 							:default-active="activeMenu"
@@ -39,99 +39,26 @@
 <script setup lang="ts" name="layoutClassic">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { MenuStore } from "@/stores/modules/menu";
+import { useGlobalStore } from "@/stores";
+import { useAuthStore } from "@/stores/modules/auth";
+import SubMenu from "@/layout/components/menu/SubMenu.vue";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarLeft from "@/layout/components/header/ToolBarLeft.vue";
 import ToolBarRight from "@/layout/components/header/ToolBarRight.vue";
-import SubMenu from "@/layout/components/menu/SubMenu.vue";
 
 const route = useRoute();
-const menuStore = MenuStore();
+const authStore = useAuthStore();
+const globalStore = useGlobalStore();
 const activeMenu = computed(() => route.path);
-const menuList = computed(() => menuStore.menuList);
-const isCollapse = computed(() => menuStore.isCollapse);
+const menuList = computed(() => authStore.showMenuListGet);
+const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 </script>
 
 <style scoped lang="scss">
-.layout-classic {
-	min-width: 1030px;
-	.classic-bottom {
-		height: calc(100% - 55px);
-		.classic-bottom-right {
-			display: flex;
-			flex-direction: column;
-		}
-	}
-}
-.el-container {
-	width: 100%;
-	height: 100%;
-	.el-header {
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 55px;
-		padding: 0 15px 0 0;
-		background-color: #191a20;
-		border-bottom: 1px solid #f1f1f1;
-		.header-lf {
-			display: flex;
-			align-items: center;
-			.logo {
-				width: 220px;
-				margin-right: 16px;
-				span {
-					font-size: 22px;
-					font-weight: bold;
-					color: #dadada;
-					white-space: nowrap;
-				}
-				img {
-					width: 30px;
-					object-fit: contain;
-					margin-right: 8px;
-				}
-			}
-		}
-		:deep(.tool-bar-lf) {
-			color: #ffffff;
-			.el-breadcrumb__inner.is-link {
-				color: #e5eaf3;
-				&:hover {
-					color: var(--el-color-primary);
-				}
-			}
-			.el-breadcrumb__item:last-child .el-breadcrumb__inner,
-			.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
-				color: #cfd3dc;
-			}
-		}
-		:deep(.tool-bar-ri) {
-			.toolBar-icon,
-			.username {
-				color: #e5eaf3;
-			}
-		}
-	}
-	.el-aside {
-		width: auto;
-		overflow: inherit;
-		background-color: #ffffff;
-		border-right: 1px solid var(--el-border-color);
-		transition: all 0.3s ease;
-		.menu {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			transition: all 0.3s ease;
-			.el-menu {
-				overflow-x: hidden;
-				border-right: none;
-			}
-		}
-	}
-}
+@import "./index.scss";
+</style>
+
+<style lang="scss">
 .classic {
 	.el-menu,
 	.el-menu--popup {
@@ -149,6 +76,11 @@ const isCollapse = computed(() => menuStore.isCollapse);
 				}
 			}
 		}
+	}
+
+	// guide
+	#driver-highlighted-element-stage {
+		background-color: #606266 !important;
 	}
 }
 </style>

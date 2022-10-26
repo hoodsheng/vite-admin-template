@@ -8,7 +8,7 @@
 		<div class="layout-box">
 			<el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
 				<div
-					:class="['layout-item layout-vertical', themeConfig.layout == 'vertical' ? 'is-active' : '']"
+					:class="['layout-item layout-vertical', themeConfig.layout === 'vertical' ? 'is-active' : '']"
 					@click="changeLayout('vertical')"
 				>
 					<div class="layout-dark"></div>
@@ -16,12 +16,12 @@
 						<div class="layout-light"></div>
 						<div class="layout-content"></div>
 					</div>
-					<el-icon v-if="themeConfig.layout == 'vertical'"><CircleCheckFilled /></el-icon>
+					<el-icon v-if="themeConfig.layout === 'vertical'"><CircleCheckFilled /></el-icon>
 				</div>
 			</el-tooltip>
 			<el-tooltip effect="dark" content="经典" placement="top" :show-after="200">
 				<div
-					:class="['layout-item layout-classic', themeConfig.layout == 'classic' ? 'is-active' : '']"
+					:class="['layout-item layout-classic', themeConfig.layout === 'classic' ? 'is-active' : '']"
 					@click="changeLayout('classic')"
 				>
 					<div class="layout-dark"></div>
@@ -29,28 +29,28 @@
 						<div class="layout-light"></div>
 						<div class="layout-content"></div>
 					</div>
-					<el-icon v-if="themeConfig.layout == 'classic'"><CircleCheckFilled /></el-icon>
+					<el-icon v-if="themeConfig.layout === 'classic'"><CircleCheckFilled /></el-icon>
 				</div>
 			</el-tooltip>
 			<el-tooltip effect="dark" content="横向" placement="top" :show-after="200">
 				<div
-					:class="['layout-item layout-transverse', themeConfig.layout == 'transverse' ? 'is-active' : '']"
+					:class="['layout-item layout-transverse', themeConfig.layout === 'transverse' ? 'is-active' : '']"
 					@click="changeLayout('transverse')"
 				>
 					<div class="layout-dark"></div>
 					<div class="layout-content"></div>
-					<el-icon v-if="themeConfig.layout == 'transverse'"><CircleCheckFilled /></el-icon>
+					<el-icon v-if="themeConfig.layout === 'transverse'"><CircleCheckFilled /></el-icon>
 				</div>
 			</el-tooltip>
 			<el-tooltip effect="dark" content="分栏" placement="top" :show-after="200">
 				<div
-					:class="['layout-item layout-columns', themeConfig.layout == 'columns' ? 'is-active' : '']"
+					:class="['layout-item layout-columns', themeConfig.layout === 'columns' ? 'is-active' : '']"
 					@click="changeLayout('columns')"
 				>
 					<div class="layout-dark"></div>
 					<div class="layout-light"></div>
 					<div class="layout-content"></div>
-					<el-icon v-if="themeConfig.layout == 'columns'"><CircleCheckFilled /></el-icon>
+					<el-icon v-if="themeConfig.layout === 'columns'"><CircleCheckFilled /></el-icon>
 				</div>
 			</el-tooltip>
 		</div>
@@ -86,19 +86,23 @@
 		</el-divider>
 		<div class="theme-item">
 			<span>折叠菜单</span>
-			<el-switch v-model="isCollapse" />
+			<el-switch v-model="themeConfig.isCollapse" />
 		</div>
 		<div class="theme-item">
-			<span>面包屑导航</span>
+			<span>面包屑</span>
 			<el-switch v-model="themeConfig.breadcrumb" />
+		</div>
+		<div class="theme-item">
+			<span>面包屑图标</span>
+			<el-switch v-model="themeConfig.breadcrumbIcon" />
 		</div>
 		<div class="theme-item">
 			<span>标签栏</span>
 			<el-switch v-model="themeConfig.tabs" />
 		</div>
 		<div class="theme-item">
-			<span>页脚</span>
-			<el-switch v-model="themeConfig.footer" />
+			<span>标签栏图标</span>
+			<el-switch v-model="themeConfig.tabsIcon" />
 		</div>
 	</el-drawer>
 </template>
@@ -106,7 +110,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useTheme } from "@/hooks/useTheme";
-import { MenuStore } from "@/stores/modules/menu";
 import { useGlobalStore } from "@/stores";
 import { DEFAULT_PRIMARY } from "@/config/baseconfig";
 import SwitchDark from "@/components/SwitchDark/index.vue";
@@ -128,17 +131,6 @@ const colorList = [
 	"#9b59b6"
 ];
 
-// 侧边栏折叠
-const menuStore = MenuStore();
-const isCollapse = computed({
-	get() {
-		return menuStore.isCollapse;
-	},
-	set() {
-		menuStore.setCollapse();
-	}
-});
-
 const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 
@@ -147,15 +139,14 @@ const changeLayout = (val: string) => {
 	globalStore.setThemeConfig({ ...themeConfig.value, layout: val });
 };
 
+// 监听布局变化，在 body 上添加相对应的 layout class
 watch(
 	() => themeConfig.value.layout,
 	() => {
 		const body = document.body as HTMLElement;
 		body.setAttribute("class", themeConfig.value.layout);
 	},
-	{
-		immediate: true
-	}
+	{ immediate: true }
 );
 
 // 打开主题设置
@@ -164,129 +155,5 @@ mittBus.on("openThemeDrawer", () => (drawerVisible.value = true));
 </script>
 
 <style scoped lang="scss">
-.divider {
-	margin-top: 15px;
-	.el-icon {
-		position: relative;
-		top: 2px;
-		right: 5px;
-		font-size: 15px;
-	}
-}
-.theme-item {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 15px 0;
-	span {
-		font-size: 14px;
-	}
-}
-.layout-box {
-	position: relative;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	padding: 12px 0 0;
-	.layout-item {
-		position: relative;
-		box-sizing: border-box;
-		width: 95px;
-		height: 67px;
-		padding: 6px;
-		margin-bottom: 20px;
-		cursor: pointer;
-		border-radius: 5px;
-		box-shadow: 0 0 5px 1px var(--el-border-color-lighter);
-		transition: all 0.2s;
-		.layout-dark {
-			background-color: var(--el-color-primary);
-			border-radius: 3px;
-		}
-		.layout-light {
-			background-color: var(--el-color-primary-light-5);
-			border-radius: 3px;
-		}
-		.layout-content {
-			background-color: var(--el-color-primary-light-8);
-			border: 1px dashed var(--el-color-primary);
-			border-radius: 3px;
-		}
-		.el-icon {
-			position: absolute;
-			right: 10px;
-			bottom: 10px;
-			color: var(--el-color-primary);
-			transition: all 0.2s;
-		}
-		&:hover {
-			box-shadow: 0 0 5px 1px var(--el-border-color-darker);
-		}
-	}
-	.is-active {
-		box-shadow: 0 0 0 2px var(--el-color-primary) !important;
-	}
-	.layout-vertical {
-		display: flex;
-		justify-content: space-between;
-		.layout-dark {
-			width: 20%;
-		}
-		.layout-container {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-between;
-			width: 72%;
-			.layout-light {
-				height: 20%;
-			}
-			.layout-content {
-				height: 67%;
-			}
-		}
-	}
-	.layout-classic {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		.layout-dark {
-			height: 22%;
-		}
-		.layout-container {
-			display: flex;
-			justify-content: space-between;
-			height: 70%;
-			.layout-light {
-				width: 20%;
-			}
-			.layout-content {
-				width: 70%;
-			}
-		}
-	}
-	.layout-transverse {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		.layout-dark {
-			height: 20%;
-		}
-		.layout-content {
-			height: 67%;
-		}
-	}
-	.layout-columns {
-		display: flex;
-		justify-content: space-between;
-		.layout-dark {
-			width: 14%;
-		}
-		.layout-light {
-			width: 17%;
-		}
-		.layout-content {
-			width: 55%;
-		}
-	}
-}
+@import "./index.scss";
 </style>

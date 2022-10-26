@@ -9,22 +9,22 @@
 				<div class="split-list">
 					<div
 						class="split-item"
-						:class="splitActive.includes(item.path) ? 'split-active' : ''"
+						:class="{ 'split-active': splitActive.includes(item.path) }"
 						v-for="item in menuList"
 						:key="item.path"
 						@click="changeSubMenu(item)"
 					>
 						<el-icon>
-							<component :is="item.icon"></component>
+							<component :is="item.meta.icon"></component>
 						</el-icon>
-						<span class="title">{{ item.title }}</span>
+						<span class="title">{{ item.meta.title }}</span>
 					</div>
 				</div>
 			</el-scrollbar>
 		</div>
-		<el-aside :class="{ 'not-aside': !subMenu.length }" :style="{ width: isCollapse ? '65px' : '220px' }">
+		<el-aside :class="{ 'not-aside': !subMenu.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
 			<div class="logo flx-center">
-				<span v-show="subMenu.length">{{ isCollapse ? "G" : "Hood Admin" }}</span>
+				<span v-show="subMenu.length">{{ isCollapse ? "G" : "Geeker Admin" }}</span>
 			</div>
 			<el-scrollbar>
 				<el-menu
@@ -52,19 +52,21 @@
 <script setup lang="ts" name="layoutColumns">
 import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MenuStore } from "@/stores/modules/menu";
+import { useGlobalStore } from "@/stores";
+import { useAuthStore } from "@/stores/modules/auth";
 import { TABS_WHITE_LIST } from "@/config/baseconfig";
+import SubMenu from "@/layout/components/menu/SubMenu.vue";
 import Main from "@/layout/components/main/index.vue";
 import ToolBarLeft from "@/layout/components/header/ToolBarLeft.vue";
 import ToolBarRight from "@/layout/components/header/ToolBarRight.vue";
-import SubMenu from "@/layout/components/menu/SubMenu.vue";
 
 const route = useRoute();
 const router = useRouter();
-const menuStore = MenuStore();
+const authStore = useAuthStore();
+const globalStore = useGlobalStore();
 const activeMenu = computed(() => route.path);
-const menuList = computed(() => menuStore.menuList);
-const isCollapse = computed(() => menuStore.isCollapse);
+const menuList = computed(() => authStore.showMenuListGet);
+const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 const watchData = computed(() => [menuList, route]);
 
 const subMenu = ref<Menu.MenuOptions[]>([]);
@@ -85,123 +87,20 @@ watch(
 	}
 );
 
+// 切换 SubMenu
 const changeSubMenu = (item: Menu.MenuOptions) => {
 	splitActive.value = item.path;
 	if (item.children?.length) return (subMenu.value = item.children);
 	subMenu.value = [];
-	router.push({ path: item.path });
+	router.push(item.path);
 };
 </script>
 
 <style scoped lang="scss">
-.layout-columns {
-	min-width: 1100px;
-}
-.el-container {
-	width: 100%;
-	height: 100%;
-	.aside-split {
-		display: flex;
-		flex-direction: column;
-		flex-shrink: 0;
-		width: 70px;
-		height: 100%;
-		background-color: #191a20;
-		border-right: 1px solid #ffffff;
-		.logo {
-			box-sizing: border-box;
-			height: 55px;
-			border-bottom: 1px solid #282a35;
-			img {
-				width: 33px;
-				object-fit: contain;
-			}
-		}
-		.el-scrollbar {
-			height: calc(100% - 55px);
-			.split-list {
-				flex: 1;
-				.split-item {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: center;
-					height: 70px;
-					cursor: pointer;
-					transition: all 0.3s ease;
-					&:hover {
-						background-color: #292b35;
-					}
-					.el-icon {
-						font-size: 21px;
-					}
-					.title {
-						margin-top: 6px;
-						font-size: 12px;
-						transform: scale(0.96);
-					}
-					.el-icon,
-					.title {
-						color: #e5eaf3;
-					}
-				}
-				.split-active {
-					background-color: $primary-color !important;
-					.el-icon,
-					.title {
-						color: #ffffff;
-					}
-				}
-			}
-		}
-	}
-	.el-aside {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		overflow: hidden;
-		background-color: #ffffff;
-		border-right: 1px solid #f0eded;
-		transition: all 0.3s ease;
-		.el-scrollbar {
-			height: calc(100% - 55px);
-			.el-menu {
-				overflow-x: hidden;
-				border-right: none;
-			}
-		}
-		.logo {
-			box-sizing: border-box;
-			height: 55px;
-			border-bottom: 1px solid #f0eded;
-			span {
-				font-size: 24px;
-				font-weight: bold;
-				color: var(--el-menu-text-color);
-				white-space: nowrap;
-			}
-		}
-	}
-	.not-aside {
-		width: 0 !important;
-	}
-	.el-header {
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 55px;
-		padding: 0 15px;
-		background-color: #ffffff;
-		border-bottom: 1px solid #f1f1f1;
-		:deep(.tool-bar-ri) {
-			.toolBar-icon,
-			.username {
-				color: var(--el-text-color-primary);
-			}
-		}
-	}
-}
+@import "./index.scss";
+</style>
+
+<style lang="scss">
 .columns {
 	.el-menu,
 	.el-menu--popup {

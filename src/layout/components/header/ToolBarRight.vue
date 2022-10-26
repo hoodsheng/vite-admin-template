@@ -4,7 +4,7 @@
 			<ThemeSetting id="themeSetting" />
 			<Fullscreen id="fullscreen" />
 		</div>
-		<span class="username">Geeker</span>
+		<span class="username">Hood</span>
 		<Avatar />
 	</div>
 </template>

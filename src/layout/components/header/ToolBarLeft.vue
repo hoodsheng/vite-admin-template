@@ -8,7 +8,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useGlobalStore } from "@/stores";
+// 展开/收缩
 import CollapseIcon from "./components/CollapseIcon.vue";
+// 面包屑
 import Breadcrumb from "./components/Breadcrumb.vue";
 
 const globalStore = useGlobalStore();
