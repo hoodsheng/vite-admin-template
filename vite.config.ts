@@ -9,6 +9,8 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { wrapperEnv } from "./src/utils/getEnv";
 // 注入网页标题
 import { createHtmlPlugin } from "vite-plugin-html";
+// 生成 svg 雪碧图
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 // 打包分析插件
 import { visualizer } from "rollup-plugin-visualizer";
 // name 可以写在 script 标签上
@@ -57,6 +59,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 						title: viteEnv.VITE_GLOB_APP_TITLE
 					}
 				}
+			}),
+			// * 使用 svg 图标
+			createSvgIconsPlugin({
+				iconDirs: [resolve(process.cwd(), "src/assets/icons")],
+				symbolId: "icon-[dir]-[name]"
 			}),
 			viteEnv.VITE_REPORT &&
 				visualizer({

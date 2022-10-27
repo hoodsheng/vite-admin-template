@@ -4,6 +4,8 @@ import App from "./App.vue";
 import "./styles/index.scss";
 // element icons
 import * as Icons from "@element-plus/icons-vue";
+// svg icon
+import "virtual:svg-icons-register";
 // vue Router
 import router from "@/routers";
 // pinia stores
