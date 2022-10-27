@@ -22,9 +22,10 @@
 				</div>
 			</el-scrollbar>
 		</div>
+		<!-- 二级及二级以上菜单 -->
 		<el-aside :class="{ 'not-aside': !subMenu.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
 			<div class="logo flx-center">
-				<span v-show="subMenu.length">{{ isCollapse ? "G" : "Geeker Admin" }}</span>
+				<span v-show="subMenu.length">{{ isCollapse ? "H" : "Hood Admin" }}</span>
 			</div>
 			<el-scrollbar>
 				<el-menu
@@ -35,6 +36,7 @@
 					:unique-opened="true"
 					background-color="#ffffff"
 				>
+					<!-- 递归组件 -->
 					<SubMenu :menuList="subMenu" />
 				</el-menu>
 			</el-scrollbar>
@@ -64,12 +66,18 @@ const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();
+
+// 当前激活的路由
 const activeMenu = computed(() => route.path);
+// 展示的菜单列表
 const menuList = computed(() => authStore.showMenuListGet);
+// 是否展开/收缩
 const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
+// 监听菜单与当前路由
 const watchData = computed(() => [menuList, route]);
 
 const subMenu = ref<Menu.MenuOptions[]>([]);
+// 当前激活的路由
 const splitActive = ref<string>("");
 watch(
 	() => watchData,
@@ -77,8 +85,11 @@ watch(
 		// 当前路由存在 tabs 白名单中 || 当前菜单没有数据直接 return
 		if (TABS_WHITE_LIST.includes(route.path) || !menuList.value.length) return;
 		splitActive.value = route.path;
+		// console.log(menuList.value);
 		const menuItem = menuList.value.filter((item: Menu.MenuOptions) => route.path.includes(item.path));
+		// 有二级及二级以上的菜单，则赋值给subMenu
 		if (menuItem[0].children?.length) return (subMenu.value = menuItem[0].children);
+		// 否则为空
 		subMenu.value = [];
 	},
 	{

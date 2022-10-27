@@ -18,6 +18,7 @@
 						text-color="#bdbdc0"
 						active-text-color="#ffffff"
 					>
+						<!-- 递归组件 -->
 						<SubMenu :menuList="menuList" />
 					</el-menu>
 				</el-scrollbar>
