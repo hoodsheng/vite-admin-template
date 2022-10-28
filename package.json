@@ -20,6 +20,8 @@
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.0.10",
 		"@vueuse/core": "^9.4.0",
+		"@wangeditor/editor": "^5.1.22",
+		"@wangeditor/editor-for-vue": "^5.1.12",
 		"axios": "^1.1.3",
 		"element-plus": "2.2.19",
 		"js-md5": "^0.7.3",
