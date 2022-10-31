@@ -1,8 +1,23 @@
 <template>
 	<el-form v-bind="$attrs" :model="model" :rules="rules" :validate-on-rule-change="false">
-		<el-form-item v-for="(item, index) in options" :key="index" :label="item.label" :prop="item.prop">
-			<component :is="`el-${item.type}`" v-bind="item.attrs" v-model="model[item.prop]"></component>
-		</el-form-item>
+		<template v-for="(item, index) in options" :key="index">
+			<!--			无children 或者 children不为空-->
+			<el-form-item :label="item.label" :prop="item.prop" v-if="!item.children || !item.children.length">
+				<component :is="`el-${item.type}`" v-bind="item.attrs" v-model="model[item.prop]"></component>
+			</el-form-item>
+			<!--			有children 且 children不为空-->
+			<el-form-item :label="item.label" :prop="item.prop" v-if="item.children && item.children.length">
+				<component :is="`el-${item.type}`" v-bind="item.attrs" v-model="model[item.prop]" :placeholder="item.placeholder">
+					<component
+						v-for="(child, i) in item.children"
+						:key="i"
+						:is="`el-${child.type}`"
+						:label="child.label"
+						:value="child.value"
+					></component>
+				</component>
+			</el-form-item>
+		</template>
 	</el-form>
 </template>
 
