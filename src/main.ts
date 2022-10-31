@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 // css
 import "./styles/index.scss";
+// 全局引入element-plus
+import ElementPlus from "element-plus";
 // element icons
 import * as Icons from "@element-plus/icons-vue";
 // svg icon
@@ -24,4 +26,5 @@ Object.keys(Icons).forEach(key => {
 
 app.use(router);
 app.use(pinia);
+app.use(ElementPlus);
 app.mount("#app");

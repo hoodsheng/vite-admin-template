@@ -4,8 +4,8 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { resolve } from "path";
 // Element-Plus按需引入
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+// import Components from "unplugin-vue-components/vite";
+// import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { wrapperEnv } from "./src/utils/getEnv";
 // 注入网页标题
 import { createHtmlPlugin } from "vite-plugin-html";
@@ -44,15 +44,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			vue(),
 			// * vite 可以使用 jsx/tsx 语法
 			vueJsx(),
-			Components({
-				dts: "src/typings/components.d.ts",
-				types: [{ from: "vue-router", names: ["RouterLink", "RouterView"] }],
-				resolvers: [
-					ElementPlusResolver({
-						importStyle: false
-					})
-				]
-			}),
+			// Components({
+			// 	dts: "src/typings/components.d.ts",
+			// 	types: [{ from: "vue-router", names: ["RouterLink", "RouterView"] }],
+			// 	resolvers: [
+			// 		ElementPlusResolver({
+			// 			importStyle: false
+			// 		})
+			// 	]
+			// }),
 			createHtmlPlugin({
 				inject: {
 					data: {

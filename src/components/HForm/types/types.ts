@@ -1,5 +1,4 @@
 import { RuleItem } from "./rule";
-import { CSSProperties } from "vue";
 
 // 表单的每一项配置选项
 export interface FormOptions {
@@ -24,13 +23,12 @@ export interface FormOptions {
 		| "time-picker"
 		| "time-select"
 		| "transfer"
-		| "upload"
-		| "editor";
+		| "upload";
 	// 表单项的值
-	value?: any;
+	value: any;
 	// 表单项label
 	label?: string;
-	// 表单项的标识
+	// 表单项的标识,可用于表单验证
 	prop?: string;
 	// 表单项的验证规则
 	rules?: RuleItem[];
@@ -38,8 +36,6 @@ export interface FormOptions {
 	placeholder?: string;
 	// 表单元素特有的属性
 	attrs?: {
-		// css样式
-		style?: CSSProperties;
 		clearable?: boolean;
 		showPassword?: boolean;
 		disabled?: boolean;

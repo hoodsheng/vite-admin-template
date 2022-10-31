@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="card content-box">
 		<HForm :options="options" label-width="100px" />
 	</div>
 </template>
@@ -8,11 +8,16 @@
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
 
+// 表单配置项
 const options: FormOptions[] = [
 	{
 		type: "input",
 		value: "",
 		label: "用户名",
+		attrs: {
+			clearable: true
+		},
+		prop: "username",
 		rules: [
 			{
 				required: true,
@@ -36,6 +41,7 @@ const options: FormOptions[] = [
 			showPassword: true,
 			clearable: true
 		},
+		prop: "password",
 		rules: [
 			{
 				required: true,
@@ -46,7 +52,7 @@ const options: FormOptions[] = [
 				min: 6,
 				max: 15,
 				required: true,
-				message: "用户名在6-15位之间",
+				message: "密码在6-15位之间",
 				trigger: "blur"
 			}
 		]
@@ -54,4 +60,6 @@ const options: FormOptions[] = [
 ];
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import "./index.scss";
+</style>
