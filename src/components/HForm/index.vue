@@ -3,7 +3,19 @@
 		<template v-for="(item, index) in options" :key="index">
 			<!--			无children 或者 children不为空-->
 			<el-form-item :label="item.label" :prop="item.prop" v-if="!item.children || !item.children.length">
-				<component :is="`el-${item.type}`" v-bind="item.attrs" v-model="model[item.prop]"></component>
+				<component
+					:is="`el-${item.type}`"
+					v-bind="item.attrs"
+					v-model="model[item.prop]"
+					v-if="item.type !== 'upload'"
+				></component>
+				<!-- 单独处理上传组件 -->
+				<el-upload v-else>
+					<!-- 点击哪块区域或者哪个按钮上传 -->
+					<slot name="uploadArea"></slot>
+					<!-- 传前的tip -->
+					<slot name="uploadTip"></slot>
+				</el-upload>
 			</el-form-item>
 			<!--			有children 且 children不为空-->
 			<el-form-item :label="item.label" :prop="item.prop" v-if="item.children && item.children.length">

@@ -1,6 +1,13 @@
 <template>
 	<div class="card content-box">
-		<HForm :options="options" label-width="100px" />
+		<HForm :options="options" label-width="100px">
+			<template #uploadArea>
+				<el-button type="primary">Click to upload</el-button>
+			</template>
+			<template #uploadTip>
+				<div>jpg/png files with a size less than 500KB.</div>
+			</template>
+		</HForm>
 	</div>
 </template>
 
@@ -120,6 +127,18 @@ const options: FormOptions[] = [
 				type: "checkbox",
 				label: "排球",
 				value: "3"
+			}
+		]
+	},
+	{
+		type: "upload",
+		label: "上传",
+		prop: "pic",
+		rules: [
+			{
+				required: true,
+				message: "图片不能为空",
+				trigger: "blur"
 			}
 		]
 	}
