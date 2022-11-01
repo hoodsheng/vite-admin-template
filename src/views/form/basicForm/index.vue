@@ -92,6 +92,36 @@ const options: FormOptions[] = [
 				value: "3"
 			}
 		]
+	},
+	{
+		type: "checkbox-group",
+		value: [],
+		prop: "like",
+		rules: [
+			{
+				required: true,
+				message: "爱好不能为空",
+				trigger: "blur"
+			}
+		],
+		label: "爱好",
+		children: [
+			{
+				type: "checkbox",
+				label: "足球",
+				value: "1"
+			},
+			{
+				type: "checkbox",
+				label: "篮球",
+				value: "2"
+			},
+			{
+				type: "checkbox",
+				label: "排球",
+				value: "3"
+			}
+		]
 	}
 ];
 </script>
