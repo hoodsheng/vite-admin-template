@@ -17,7 +17,7 @@ export const useAuthButtons = () => {
 	const BUTTONS = computed(() => {
 		const authStore = useAuthStore();
 		// 未获取接口数据前，设为空对象，否则报错
-		return authStore.authButtonsObj[nowKey.value] || {};
+		return authStore.authButtonsObj[nowKey.value] ? authStore.authButtonsObj[nowKey.value] : {};
 	});
 
 	return {

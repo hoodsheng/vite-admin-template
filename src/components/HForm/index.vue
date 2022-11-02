@@ -10,7 +10,20 @@
 					v-if="item.type !== 'upload'"
 				></component>
 				<!-- 单独处理上传组件 -->
-				<el-upload v-else>
+				<el-upload
+					v-else
+					v-bind="item.uploadAttrs"
+					:on-preview="onPreview"
+					:on-remove="onRemove"
+					:on-success="onSuccess"
+					:on-error="onError"
+					:on-progress="onProgress"
+					:on-change="onChange"
+					:on-exceed="onExceed"
+					:before-upload="beforeUpload"
+					:before-remove="beforeRemove"
+					:http-request="httpRequest"
+				>
 					<!-- 点击哪块区域或者哪个按钮上传 -->
 					<slot name="uploadArea"></slot>
 					<!-- 传前的tip -->
@@ -35,7 +48,7 @@
 
 <script setup lang="ts">
 import { PropType, ref, onMounted, watch } from "vue";
-import type { FormRules } from "element-plus";
+import type { FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadRequestOptions } from "element-plus";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -80,6 +93,35 @@ watch(
 	},
 	{ deep: true }
 );
+
+// 上传组件的所有方法
+const onPreview = (uploadFile: UploadFile) => {
+	console.log(uploadFile);
+};
+const onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(uploadFile, uploadFiles);
+};
+const onSuccess = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(response, uploadFile, uploadFiles);
+};
+const onError = (error: Error, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(error, uploadFile, uploadFiles);
+};
+const onProgress = (evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(evt, uploadFile, uploadFiles);
+};
+const onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(uploadFile, uploadFiles);
+};
+const beforeUpload = (rawFile: UploadRawFile) => {
+	console.log(rawFile);
+};
+const beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log(uploadFile, uploadFiles);
+};
+const httpRequest = (options: UploadRequestOptions) => {
+	console.log(options);
+};
 </script>
 
 <style scoped lang="scss"></style>
