@@ -1,120 +1,233 @@
 <template>
 	<div class="card content-box">
-		<el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="140px">
-			<el-form-item label="Activity name" prop="name">
-				<el-input v-model="ruleForm.name" />
-			</el-form-item>
-			<el-form-item label="Activity phone" prop="phone">
-				<el-input v-model="ruleForm.phone" placeholder="Activity phone" />
-			</el-form-item>
-			<el-form-item label="Activity zone" prop="region">
-				<el-select v-model="ruleForm.region" placeholder="Activity zone">
-					<el-option label="Zone one" value="shanghai" />
-					<el-option label="Zone two" value="beijing" />
-				</el-select>
-			</el-form-item>
-			<el-form-item label="Activity time" required>
-				<el-form-item prop="date1">
-					<el-date-picker v-model="ruleForm.date1" type="date" placeholder="Pick a date" style="width: 100%" />
-				</el-form-item>
-				<el-col class="text-center" :span="1">
-					<span class="text-gray-500">-</span>
-				</el-col>
-				<el-form-item prop="date2">
-					<el-time-picker v-model="ruleForm.date2" placeholder="Pick a time" style="width: 100%" />
-				</el-form-item>
-			</el-form-item>
-			<el-form-item label="Instant delivery" prop="delivery">
-				<el-switch v-model="ruleForm.delivery" />
-			</el-form-item>
-			<el-form-item label="Resources" prop="resource">
-				<el-radio-group v-model="ruleForm.resource">
-					<el-radio label="Sponsorship" />
-					<el-radio label="Venue" />
-				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="Activity form" prop="desc">
-				<el-input v-model="ruleForm.desc" type="textarea" />
-			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="submitForm(ruleFormRef)">Create</el-button>
-				<el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-			</el-form-item>
-		</el-form>
+		<HForm
+			:options="options"
+			label-width="100px"
+			@on-change="handleChange"
+			@before-upload="handleBeforeUpload"
+			@on-preview="handlePreview"
+			@on-remove="handleRemove"
+			@before-remove="beforeRemove"
+			@on-success="handleSuccess"
+			@on-exceed="handleExceed"
+		>
+			<template #uploadArea>
+				<el-button type="primary">上传图片</el-button>
+			</template>
+			<template #uploadTip>
+				<div>jpg/png files with a size less than 500KB.</div>
+			</template>
+			<template #action="scope">
+				<el-button type="primary" @click="submitForm(scope)">提交</el-button>
+				<el-button @click="resetForm(scope)">重置</el-button>
+			</template>
+		</HForm>
 	</div>
 </template>
 
-<script setup lang="ts" name="dynamicForm">
-import { reactive, ref } from "vue";
-import { checkPhoneNumber } from "@/utils/eleValidate";
-import type { FormInstance, FormRules } from "element-plus";
-import { ElMessage } from "element-plus";
+<script setup lang="ts">
+import HForm from "@/components/HForm/index.vue";
+import { FormOptions } from "@/components/HForm/types/types";
+import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
 
-const ruleFormRef = ref<FormInstance>();
-const ruleForm = reactive({
-	name: "Geeker-Admin",
-	phone: "",
-	region: "",
-	date1: "",
-	date2: "",
-	delivery: false,
-	resource: "",
-	desc: ""
-});
+interface Scope {
+	form: FormInstance;
+	model: any;
+}
 
-const rules = reactive<FormRules>({
-	name: [
-		{ required: true, message: "Please input Activity name", trigger: "blur" },
-		{ min: 3, max: 5, message: "Length should be 3 to 5", trigger: "blur" }
-	],
-	phone: [{ required: true, validator: checkPhoneNumber, trigger: "blur" }],
-	region: [
-		{
-			required: true,
-			message: "Please select Activity zone",
-			trigger: "change"
-		}
-	],
-	date1: [
-		{
-			type: "date",
-			required: true,
-			message: "Please pick a date",
-			trigger: "change"
-		}
-	],
-	date2: [
-		{
-			type: "date",
-			required: true,
-			message: "Please pick a time",
-			trigger: "change"
-		}
-	],
-	resource: [
-		{
-			required: true,
-			message: "Please select activity resource",
-			trigger: "change"
-		}
-	],
-	desc: [{ required: true, message: "Please input activity form", trigger: "blur" }]
-});
+// 表单配置项
+const options: FormOptions[] = [
+	{
+		type: "input",
+		value: "",
+		label: "用户名",
+		attrs: {
+			clearable: true
+		},
+		prop: "username",
+		rules: [
+			{
+				required: true,
+				message: "用户名不能为空",
+				trigger: "blur"
+			},
+			{
+				min: 2,
+				max: 6,
+				required: true,
+				message: "用户名在2-6位之间",
+				trigger: "blur"
+			}
+		]
+	},
+	{
+		type: "input",
+		value: "",
+		label: "密码",
+		attrs: {
+			showPassword: true,
+			clearable: true
+		},
+		prop: "password",
+		rules: [
+			{
+				required: true,
+				message: "密码不能为空",
+				trigger: "blur"
+			},
+			{
+				min: 6,
+				max: 15,
+				required: true,
+				message: "密码在6-15位之间",
+				trigger: "blur"
+			}
+		]
+	},
+	{
+		type: "select",
+		value: "",
+		label: "职位",
+		placeholder: "请选择职位",
+		prop: "role",
+		attrs: {
+			style: {
+				width: "100%"
+			}
+		},
+		rules: [
+			{
+				required: true,
+				message: "职位不能为空",
+				trigger: "blur"
+			}
+		],
+		children: [
+			{
+				type: "option",
+				label: "经理",
+				value: "1"
+			},
+			{
+				type: "option",
+				label: "主管",
+				value: "2"
+			},
+			{
+				type: "option",
+				label: "员工",
+				value: "3"
+			}
+		]
+	},
+	{
+		type: "checkbox-group",
+		value: [],
+		prop: "like",
+		rules: [
+			{
+				required: true,
+				message: "爱好不能为空",
+				trigger: "blur"
+			}
+		],
+		label: "爱好",
+		children: [
+			{
+				type: "checkbox",
+				label: "足球",
+				value: "1"
+			},
+			{
+				type: "checkbox",
+				label: "篮球",
+				value: "2"
+			},
+			{
+				type: "checkbox",
+				label: "排球",
+				value: "3"
+			}
+		]
+	},
+	{
+		type: "upload",
+		label: "上传",
+		prop: "pic",
+		uploadAttrs: {
+			action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+			multiple: true,
+			limit: 3
+		},
+		rules: [
+			{
+				required: true,
+				message: "图片不能为空",
+				trigger: "blur"
+			}
+		]
+	}
+];
 
-const submitForm = async (formEl: FormInstance | undefined) => {
-	if (!formEl) return;
-	await formEl.validate((valid, fields) => {
+// 提交表单
+const submitForm = async (scope: Scope) => {
+	if (!scope.form) return;
+	await scope.form.validate((valid, fields) => {
 		if (valid) {
-			ElMessage.success("提交的数据为 : " + JSON.stringify(ruleForm));
+			// 验证成功，获取提交的数据
+			console.log(scope.model);
+			console.log("submit!");
 		} else {
 			console.log("error submit!", fields);
 		}
 	});
 };
 
-const resetForm = (formEl: FormInstance | undefined) => {
-	if (!formEl) return;
-	formEl.resetFields();
+// 重置表单
+const resetForm = (scope: Scope) => {
+	if (!scope.form) return;
+	scope.form.resetFields();
+};
+
+const handleChange: UploadProps["onChange"] = (val: any) => {
+	console.log("handleChange");
+	console.log(val);
+};
+
+const handleBeforeUpload: UploadProps["beforeUpload"] = (rawFile: UploadRawFile) => {
+	console.log("handleBeforeUpload");
+	console.log(rawFile);
+};
+
+const handleSuccess: UploadProps["onSuccess"] = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log("handleSuccess");
+	console.log(response, uploadFile, uploadFiles);
+};
+
+const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
+	console.log("handleRemove");
+	console.log(file, uploadFiles);
+};
+
+const handlePreview: UploadProps["onPreview"] = uploadFile => {
+	console.log("handlePreview");
+	console.log(uploadFile);
+};
+
+const handleExceed: UploadProps["onExceed"] = (val: any) => {
+	ElMessage.warning(
+		`The limit is 3, you selected ${val.files.length} files this time, add up to ${
+			val.files.length + val.uploadFiles.length
+		} totally`
+	);
+};
+
+const beforeRemove: UploadProps["beforeRemove"] = uploadFile => {
+	console.log("beforeRemove");
+	return ElMessageBox.confirm(`Cancel the transfert of ${uploadFile.name} ?`).then(
+		() => true,
+		() => false
+	);
 };
 </script>
 

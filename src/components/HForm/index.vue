@@ -1,5 +1,5 @@
 <template>
-	<el-form v-if="model" v-bind="$attrs" :model="model" :rules="rules" :validate-on-rule-change="false">
+	<el-form ref="form" v-if="model" v-bind="$attrs" :model="model" :rules="rules" :validate-on-rule-change="false">
 		<template v-for="(item, index) in options" :key="index">
 			<!--			无children 或者 children不为空-->
 			<el-form-item :label="item.label" :prop="item.prop" v-if="!item.children || !item.children.length">
@@ -26,7 +26,7 @@
 				>
 					<!-- 点击哪块区域或者哪个按钮上传 -->
 					<slot name="uploadArea"></slot>
-					<!-- 传前的tip -->
+					<!-- 上传前默认显示的tip -->
 					<slot name="uploadTip"></slot>
 				</el-upload>
 			</el-form-item>
@@ -43,15 +43,21 @@
 				</component>
 			</el-form-item>
 		</template>
+		<!--	表单操作，例如提交，重置等 -->
+		<el-form-item>
+			<!--			具名作用域插槽-->
+			<slot name="action" :form="form" :model="model"></slot>
+		</el-form-item>
 	</el-form>
 </template>
 
 <script setup lang="ts">
 import { PropType, ref, onMounted, watch } from "vue";
-import type { FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile } from "element-plus";
+import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile } from "element-plus";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
 
+// 接收属性
 const props = defineProps({
 	// 表单配置项
 	options: {
@@ -67,6 +73,8 @@ const props = defineProps({
 const model = ref<Record<string, any>>({});
 // 表单所有验证规则
 const rules = ref<FormRules>({});
+// 表单元素
+const form = ref<FormInstance | null>();
 
 // 初始化表单
 const initForm = () => {
@@ -123,6 +131,10 @@ const onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 
 const onSuccess = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 	// console.log(response, uploadFile, uploadFiles);
+	// 上传图片成功 给表单上传项赋值
+	const uploadItem = props.options.find(item => item.type === "upload")!;
+	// console.log(uploadItem);
+	model.value[uploadItem.prop!] = { response, uploadFile, uploadFiles };
 	emits("on-success", { response, uploadFile, uploadFiles });
 };
 
