@@ -1,6 +1,16 @@
 <template>
 	<div class="card content-box">
-		<HForm :options="options" label-width="100px">
+		<HForm
+			:options="options"
+			label-width="100px"
+			@on-change="handleChange"
+			@before-upload="handleBeforeUpload"
+			@on-preview="handlePreview"
+			@on-remove="handleRemove"
+			@before-remove="beforeRemove"
+			@on-success="handleSuccess"
+			@on-exceed="handleExceed"
+		>
 			<template #uploadArea>
 				<el-button type="primary">Click to upload</el-button>
 			</template>
@@ -14,6 +24,7 @@
 <script setup lang="ts">
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
+import { ElMessage, ElMessageBox, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
 
 // 表单配置项
 const options: FormOptions[] = [
@@ -135,7 +146,9 @@ const options: FormOptions[] = [
 		label: "上传",
 		prop: "pic",
 		uploadAttrs: {
-			action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+			action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+			multiple: true,
+			limit: 3
 		},
 		rules: [
 			{
@@ -146,6 +159,47 @@ const options: FormOptions[] = [
 		]
 	}
 ];
+
+const handleChange: UploadProps["onChange"] = (val: any) => {
+	console.log("handleChange");
+	console.log(val);
+};
+
+const handleBeforeUpload: UploadProps["beforeUpload"] = (rawFile: UploadRawFile) => {
+	console.log("handleBeforeUpload");
+	console.log(rawFile);
+};
+
+const handleSuccess: UploadProps["onSuccess"] = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+	console.log("handleSuccess");
+	console.log(response, uploadFile, uploadFiles);
+};
+
+const handleRemove: UploadProps["onRemove"] = (file, uploadFiles) => {
+	console.log("handleRemove");
+	console.log(file, uploadFiles);
+};
+
+const handlePreview: UploadProps["onPreview"] = uploadFile => {
+	console.log("handlePreview");
+	console.log(uploadFile);
+};
+
+const handleExceed: UploadProps["onExceed"] = (val: any) => {
+	ElMessage.warning(
+		`The limit is 3, you selected ${val.files.length} files this time, add up to ${
+			val.files.length + val.uploadFiles.length
+		} totally`
+	);
+};
+
+const beforeRemove: UploadProps["beforeRemove"] = uploadFile => {
+	console.log("beforeRemove");
+	return ElMessageBox.confirm(`Cancel the transfert of ${uploadFile.name} ?`).then(
+		() => true,
+		() => false
+	);
+};
 </script>
 
 <style scoped lang="scss">

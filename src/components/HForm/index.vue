@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { PropType, ref, onMounted, watch } from "vue";
-import type { FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile, UploadRequestOptions } from "element-plus";
+import type { FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile } from "element-plus";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -57,6 +57,10 @@ const props = defineProps({
 	options: {
 		type: Array as PropType<FormOptions[]>,
 		required: true
+	},
+	// 覆盖默认的 Xhr 行为，允许自行实现上传文件的请求
+	httpRequest: {
+		type: Function
 	}
 });
 // 表单绑定数据
@@ -94,33 +98,62 @@ watch(
 	{ deep: true }
 );
 
+// 发射
+const emits = defineEmits([
+	"on-preview",
+	"on-remove",
+	"on-success",
+	"on-error",
+	"on-progress",
+	"on-change",
+	"on-exceed",
+	"before-upload",
+	"before-remove"
+]);
 // 上传组件的所有方法
 const onPreview = (uploadFile: UploadFile) => {
-	console.log(uploadFile);
+	// console.log(uploadFile);
+	emits("on-preview", uploadFile);
 };
+
 const onRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(uploadFile, uploadFiles);
+	// console.log(uploadFile, uploadFiles);
+	emits("on-remove", { uploadFile, uploadFiles });
 };
+
 const onSuccess = (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(response, uploadFile, uploadFiles);
+	// console.log(response, uploadFile, uploadFiles);
+	emits("on-success", { response, uploadFile, uploadFiles });
 };
+
 const onError = (error: Error, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(error, uploadFile, uploadFiles);
+	// console.log(error, uploadFile, uploadFiles);
+	emits("on-error", { error, uploadFile, uploadFiles });
 };
+
 const onProgress = (evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(evt, uploadFile, uploadFiles);
+	// console.log(evt, uploadFile, uploadFiles);
+	emits("on-progress", { evt, uploadFile, uploadFiles });
 };
+
 const onChange = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(uploadFile, uploadFiles);
+	// console.log(uploadFile, uploadFiles);
+	emits("on-change", { uploadFile, uploadFiles });
 };
+
+const onExceed = (files: File[], uploadFiles: UploadFiles) => {
+	// console.log(uploadFile, uploadFiles);
+	emits("on-exceed", { files, uploadFiles });
+};
+
 const beforeUpload = (rawFile: UploadRawFile) => {
-	console.log(rawFile);
+	// console.log(rawFile);
+	emits("before-upload", rawFile);
 };
+
 const beforeRemove = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-	console.log(uploadFile, uploadFiles);
-};
-const httpRequest = (options: UploadRequestOptions) => {
-	console.log(options);
+	// console.log(uploadFile, uploadFiles);
+	emits("before-remove", { uploadFile, uploadFiles });
 };
 </script>
 
