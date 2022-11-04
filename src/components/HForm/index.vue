@@ -7,11 +7,12 @@
 					:is="`el-${item.type}`"
 					v-bind="item.attrs"
 					v-model="model[item.prop]"
-					v-if="item.type !== 'upload'"
+					v-if="item.type !== 'upload' && item.type !== 'editor'"
 				></component>
 				<!-- 单独处理上传组件 -->
 				<el-upload
-					v-else
+					ref="upload"
+					v-if="item.type === 'upload'"
 					v-bind="item.uploadAttrs"
 					:on-preview="onPreview"
 					:on-remove="onRemove"
@@ -92,6 +93,23 @@ const initForm = () => {
 		// console.log(rules.value);
 	}
 };
+
+// 组件重写表单重置的方法
+const resetFields = () => {
+	// 1、重置element-plus 的表单
+	form.value!.resetFields();
+	// 2、重置富文本编辑器的内容
+	if (props.options && props.options.length) {
+		const uploadItem = props.options.find(item => item.type === "upload")!;
+		// console.log(uploadItem);
+		uploadItem.uploadAttrs!.fileList = [];
+	}
+};
+
+// 暴露方法
+defineExpose({
+	resetFields
+});
 
 onMounted(() => {
 	initForm();

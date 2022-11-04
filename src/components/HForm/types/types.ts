@@ -1,6 +1,6 @@
-import { RuleItem } from "./rule";
+// import { RuleItem } from "./rule";
 import { CSSProperties } from "vue";
-import { UploadUserFile } from "element-plus";
+import { FormItemRule, UploadUserFile } from "element-plus";
 
 // 表单的每一项配置选项
 export interface FormOptions {
@@ -25,7 +25,8 @@ export interface FormOptions {
 		| "time-picker"
 		| "time-select"
 		| "transfer"
-		| "upload";
+		| "upload"
+		| "editor";
 	// 表单项的值
 	value?: any;
 	// 表单项label
@@ -33,7 +34,8 @@ export interface FormOptions {
 	// 表单项的标识,可用于表单验证
 	prop?: string;
 	// 表单项的验证规则
-	rules?: RuleItem[];
+	// rules?: RuleItem[];
+	rules?: Array<FormItemRule>;
 	// 表单项的占位符
 	placeholder?: string;
 	// 表单元素特有的属性
