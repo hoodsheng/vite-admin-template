@@ -30,6 +30,17 @@
 					<!-- 上传前默认显示的tip -->
 					<slot name="uploadTip"></slot>
 				</el-upload>
+				<!-- 单独处理富文本编辑器 -->
+				<div v-if="item.type === 'editor'" v-bind="item.attrs">
+					<Toolbar style="border-bottom: 1px solid #cccccc" :editor="editorRef" :defaultConfig="toolbarConfig" mode="default" />
+					<Editor
+						style="height: 500px; overflow-y: hidden"
+						v-model="valueHtml"
+						:defaultConfig="editorConfig"
+						mode="default"
+						@onCreated="handleCreated"
+					/>
+				</div>
 			</el-form-item>
 			<!--			有children 且 children不为空-->
 			<el-form-item :label="item.label" :prop="item.prop" v-if="item.children && item.children.length">
@@ -53,10 +64,44 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, onMounted, watch } from "vue";
+import { PropType, ref, onMounted, watch, onBeforeUnmount, shallowRef } from "vue";
 import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile } from "element-plus";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
+import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
+import "@wangeditor/editor/dist/css/style.css";
+import { IEditorConfig, IToolbarConfig } from "@wangeditor/editor"; // 引入 css
+
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef();
+
+// 内容 HTML
+const valueHtml = ref("");
+
+const toolbarConfig: Partial<IToolbarConfig> = {
+	// TS 语法
+	// const toolbarConfig = {                        // JS 语法
+	/* 工具栏配置 */
+};
+const editorConfig: Partial<IEditorConfig> = {
+	// TS 语法
+	placeholder: "",
+	// const editorConfig = {                       // JS 语法
+	MENU_CONF: {}
+
+	// 其他属性...
+};
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+	const editor = editorRef.value;
+	if (editor == null) return;
+	editor.destroy();
+});
+
+const handleCreated = (editor: any) => {
+	editorRef.value = editor; // 记录 editor 实例，重要！
+};
 
 // 接收属性
 const props = defineProps({
@@ -86,6 +131,10 @@ const initForm = () => {
 			// console.log(item);
 			m[item.prop!] = item.value;
 			r[item.prop!] = item.rules;
+			if (item.type === "editor") {
+				console.log(item.placeholder);
+				editorConfig.placeholder = item.placeholder;
+			}
 		});
 		model.value = cloneDeep(m);
 		rules.value = cloneDeep(r);

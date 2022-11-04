@@ -1,6 +1,7 @@
 <template>
 	<div class="card content-box">
 		<HForm
+			ref="hform"
 			:options="options"
 			label-width="100px"
 			@on-change="handleChange"
@@ -29,11 +30,14 @@
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
 import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
+import { ref } from "vue";
 
 interface Scope {
 	form: FormInstance;
 	model: any;
 }
+
+const hform = ref();
 
 // 表单配置项
 const options: FormOptions[] = [
@@ -157,7 +161,8 @@ const options: FormOptions[] = [
 		uploadAttrs: {
 			action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
 			multiple: true,
-			limit: 3
+			limit: 3,
+			fileList: []
 		},
 		rules: [
 			{
@@ -172,6 +177,12 @@ const options: FormOptions[] = [
 		value: "",
 		label: "描述",
 		prop: "desc",
+		placeholder: "请输入描述",
+		attrs: {
+			style: {
+				border: "1px solid #ccc"
+			}
+		},
 		rules: [
 			{
 				required: true,
@@ -199,7 +210,7 @@ const submitForm = async (scope: Scope) => {
 // 重置表单
 const resetForm = (scope: Scope) => {
 	if (!scope.form) return;
-	scope.form.resetFields();
+	hform.value.resetFields();
 };
 
 const handleChange: UploadProps["onChange"] = (val: any) => {
