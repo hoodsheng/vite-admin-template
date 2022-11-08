@@ -32,6 +32,7 @@
 				</el-upload>
 				<!-- 单独处理富文本编辑器 -->
 				<div v-if="item.type === 'editor'" v-bind="item.attrs">
+					{{ editorConfig }}
 					<Toolbar style="border-bottom: 1px solid #cccccc" :editor="editorRef" :defaultConfig="toolbarConfig" mode="default" />
 					<Editor
 						style="height: 500px; overflow-y: hidden"
@@ -83,14 +84,6 @@ const toolbarConfig: Partial<IToolbarConfig> = {
 	// const toolbarConfig = {                        // JS 语法
 	/* 工具栏配置 */
 };
-const editorConfig: Partial<IEditorConfig> = {
-	// TS 语法
-	placeholder: "",
-	// const editorConfig = {                       // JS 语法
-	MENU_CONF: {}
-
-	// 其他属性...
-};
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -122,6 +115,19 @@ const rules = ref<FormRules>({});
 // 表单元素
 const form = ref<FormInstance | null>();
 
+const editorConfig = ref<Partial<IEditorConfig>>({
+	// TS 语法
+	placeholder: ""
+	// 其他属性...
+});
+
+const initEditorConfig = () => {
+	console.log("111");
+	if (props.options && props.options.length) {
+		editorConfig.value.placeholder = props.options.find(item => item.type === "editor")!.placeholder;
+	}
+};
+
 // 初始化表单
 const initForm = () => {
 	if (props.options && props.options.length) {
@@ -131,10 +137,10 @@ const initForm = () => {
 			// console.log(item);
 			m[item.prop!] = item.value;
 			r[item.prop!] = item.rules;
-			if (item.type === "editor") {
-				console.log(item.placeholder);
-				editorConfig.placeholder = item.placeholder;
-			}
+			// if (item.type === "editor") {
+			// 	editorConfig.placeholder = item.placeholder;
+			// 	console.log(editorConfig);
+			// }
 		});
 		model.value = cloneDeep(m);
 		rules.value = cloneDeep(r);
@@ -157,7 +163,8 @@ const resetFields = () => {
 
 // 暴露方法
 defineExpose({
-	resetFields
+	resetFields,
+	initEditorConfig
 });
 
 onMounted(() => {

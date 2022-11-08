@@ -30,7 +30,7 @@
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
 import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 interface Scope {
 	form: FormInstance;
@@ -253,6 +253,10 @@ const beforeRemove: UploadProps["beforeRemove"] = uploadFile => {
 		() => false
 	);
 };
+
+onMounted(() => {
+	hform.value.initEditorConfig();
+});
 </script>
 
 <style scoped lang="scss">
