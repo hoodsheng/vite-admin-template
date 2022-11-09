@@ -30,7 +30,7 @@
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
 import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 
 interface Scope {
 	form: FormInstance;
@@ -177,7 +177,6 @@ const options: FormOptions[] = [
 		value: "",
 		label: "描述",
 		prop: "desc",
-		placeholder: "请输入描述",
 		attrs: {
 			style: {
 				border: "1px solid #ccc"
@@ -253,10 +252,6 @@ const beforeRemove: UploadProps["beforeRemove"] = uploadFile => {
 		() => false
 	);
 };
-
-onMounted(() => {
-	hform.value.initEditorConfig();
-});
 </script>
 
 <style scoped lang="scss">

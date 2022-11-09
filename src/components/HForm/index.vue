@@ -117,16 +117,9 @@ const form = ref<FormInstance | null>();
 
 const editorConfig = ref<Partial<IEditorConfig>>({
 	// TS 语法
-	placeholder: ""
+	placeholder: "请输入内容..."
 	// 其他属性...
 });
-
-const initEditorConfig = () => {
-	console.log("111");
-	if (props.options && props.options.length) {
-		editorConfig.value.placeholder = props.options.find(item => item.type === "editor")!.placeholder;
-	}
-};
 
 // 初始化表单
 const initForm = () => {
@@ -163,8 +156,7 @@ const resetFields = () => {
 
 // 暴露方法
 defineExpose({
-	resetFields,
-	initEditorConfig
+	resetFields
 });
 
 onMounted(() => {
