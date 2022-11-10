@@ -32,7 +32,7 @@
 				</el-upload>
 				<!-- 单独处理富文本编辑器 -->
 				<div v-if="item.type === 'editor'" v-bind="item.attrs">
-					{{ editorConfig }}
+					{{ valueHtml }}
 					<Toolbar style="border-bottom: 1px solid #cccccc" :editor="editorRef" :defaultConfig="toolbarConfig" mode="default" />
 					<Editor
 						style="height: 500px; overflow-y: hidden"
@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, onMounted, watch, onBeforeUnmount, shallowRef } from "vue";
+import { PropType, ref, onMounted, watch, onBeforeUnmount, shallowRef, nextTick } from "vue";
 import type { FormInstance, FormRules, UploadFile, UploadFiles, UploadProgressEvent, UploadRawFile } from "element-plus";
 import { FormOptions } from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
@@ -130,10 +130,11 @@ const initForm = () => {
 			// console.log(item);
 			m[item.prop!] = item.value;
 			r[item.prop!] = item.rules;
-			// if (item.type === "editor") {
-			// 	editorConfig.placeholder = item.placeholder;
-			// 	console.log(editorConfig);
-			// }
+			if (item.type === "editor") {
+				nextTick(() => {
+					valueHtml.value = item.value;
+				});
+			}
 		});
 		model.value = cloneDeep(m);
 		rules.value = cloneDeep(r);

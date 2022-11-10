@@ -199,7 +199,7 @@ const submitForm = async (scope: Scope) => {
 		if (valid) {
 			// 验证成功，获取提交的数据
 			console.log(scope.model);
-			console.log("submit!");
+			// console.log("submit!");
 		} else {
 			console.log("error submit!", fields);
 		}
