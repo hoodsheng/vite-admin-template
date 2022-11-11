@@ -27,10 +27,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
 import HForm from "@/components/HForm/index.vue";
 import { FormOptions } from "@/components/HForm/types/types";
-import { ElMessage, ElMessageBox, FormInstance, UploadFile, UploadFiles, UploadProps, UploadRawFile } from "element-plus";
-import { ref } from "vue";
 
 interface Scope {
 	form: FormInstance;
@@ -174,14 +174,10 @@ const options: FormOptions[] = [
 	},
 	{
 		type: "editor",
-		value: "",
+		value: "123",
 		label: "描述",
 		prop: "desc",
-		attrs: {
-			style: {
-				border: "1px solid #ccc"
-			}
-		},
+		placeholder: "请输入描述",
 		rules: [
 			{
 				required: true,
