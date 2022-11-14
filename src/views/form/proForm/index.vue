@@ -174,7 +174,7 @@ const options: FormOptions[] = [
 	},
 	{
 		type: "editor",
-		value: "123",
+		value: "",
 		label: "描述",
 		prop: "desc",
 		placeholder: "请输入描述",
