@@ -98,6 +98,7 @@ const initForm = () => {
 					if (document.getElementById("editor")) {
 						const editor = new E("#editor");
 						editor.config.placeholder = item.placeholder!;
+						editor.config.height = item.editorAttrs!.height!;
 						editor.create();
 						editor.txt.html(item.value);
 						editor.config.onchange = (newHtml: string) => {
@@ -193,9 +194,21 @@ const resetFields = () => {
 	}
 };
 
+// 表单验证
+const validate = () => {
+	return form.value!.validate;
+};
+
+// 获取表单数据
+const getFromData = () => {
+	return model.value;
+};
+
 // 子组件向父组件暴露一个方法或者属性
 defineExpose({
-	resetFields
+	resetFields,
+	validate,
+	getFromData
 });
 
 // 监听父组件传进来的options

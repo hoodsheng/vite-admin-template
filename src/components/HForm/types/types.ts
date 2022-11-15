@@ -67,4 +67,7 @@ export interface FormOptions {
 		disabled?: boolean;
 		limit?: number;
 	};
+	editorAttrs?: {
+		height?: number;
+	};
 }

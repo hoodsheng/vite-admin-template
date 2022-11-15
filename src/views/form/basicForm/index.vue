@@ -3,7 +3,7 @@
 		<HForm
 			:options="options"
 			label-width="100px"
-			@on-change="handleChange"
+			@on-blur="handleChange"
 			@before-upload="handleBeforeUpload"
 			@on-preview="handlePreview"
 			@on-remove="handleRemove"
