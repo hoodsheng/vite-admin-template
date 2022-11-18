@@ -178,6 +178,9 @@ const options: FormOptions[] = [
 		label: "描述",
 		prop: "desc",
 		placeholder: "请输入描述",
+		editorAttrs: {
+			height: 200
+		},
 		rules: [
 			{
 				required: true,

@@ -82,6 +82,45 @@ export namespace User {
 	}
 }
 
+// * 用户管理模块
+export namespace User {
+	export interface ReqGetUserParams extends ReqPage {
+		username: string;
+		gender: number;
+		idCard: string;
+		email: string;
+		address: string;
+		createTime: string[];
+		status: number;
+	}
+	export interface ResUserList {
+		id: string;
+		username: string;
+		gender: string;
+		age: number;
+		idCard: string;
+		email: string;
+		address: string;
+		createTime: string;
+		status: number;
+		avatar: string;
+		children?: ResUserList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+	export interface ResGender {
+		genderLabel: string;
+		genderValue: number;
+	}
+	export interface ResDepartment {
+		id: string;
+		name: string;
+		children?: ResDepartment[];
+	}
+}
+
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {

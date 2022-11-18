@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts" name="UserDrawer">
-import { User } from "@/api/types";
+import { User } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { genderType } from "@/utils/serviceDict";
 import { ElMessage, FormInstance } from "element-plus";
@@ -65,7 +65,7 @@ interface DrawerProps {
 	title: string;
 	isView: boolean;
 	rowData?: User.ResUserList;
-	apiUrl?: (params: any) => Promise<any>;
+	api?: (params: any) => Promise<any>;
 	getTableList?: () => Promise<any>;
 }
 
@@ -88,7 +88,7 @@ const handleSubmit = () => {
 	ruleFormRef.value!.validate(async valid => {
 		if (!valid) return;
 		try {
-			await drawerData.value.apiUrl!(drawerData.value.rowData);
+			await drawerData.value.api!(drawerData.value.rowData);
 			ElMessage.success({ message: `${drawerData.value.title}用户成功！` });
 			drawerData.value.getTableList!();
 			drawerVisible.value = false;
