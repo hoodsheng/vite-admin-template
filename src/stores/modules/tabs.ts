@@ -38,6 +38,21 @@ export const TabsStore = defineStore({
 			this.tabsMenuList = this.tabsMenuList.filter(item => {
 				return item.path === tabsMenuValue || !item.close;
 			});
+		},
+		// 关闭左侧tab
+		async closeLeftTabs(...args: (number | string)[]) {
+			// console.log([...args][1], this.tabsMenuList);
+			this.tabsMenuList = this.tabsMenuList.filter((item, index) => {
+				return [...args][1] <= index || !item.close;
+			});
+		},
+		// 关闭左侧tab
+		async closeRightTabs(...args: (number | string)[]) {
+			console.log([...args][0], this.tabsMenuList);
+			this.tabsMenuList = this.tabsMenuList.filter((item, index) => {
+				return [...args][1] >= index;
+			});
+			router.push([...args][0] as string);
 		}
 	},
 	persist: piniaPersistConfig("TabsState")
