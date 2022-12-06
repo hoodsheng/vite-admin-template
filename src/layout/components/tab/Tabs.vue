@@ -30,16 +30,19 @@
 									<el-dropdown-item v-if="item.path !== '/home/index'" @click="closeCurrentTab">
 										<el-icon><Close /></el-icon>关闭当前标签页
 									</el-dropdown-item>
-									<el-dropdown-item v-if="index !== 0" @click="closeLeftTab(index)">
+									<el-dropdown-item v-if="index !== 0 && index !== 1" @click="closeLeftTab(index)">
 										<el-icon><DArrowLeft /></el-icon>关闭左侧标签页
 									</el-dropdown-item>
-									<el-dropdown-item v-if="index !== tabsMenuList.length - 1" @click="closeRightTab(item.path, index)">
+									<el-dropdown-item
+										v-if="index !== tabsMenuList.length - 1 && tabsMenuList.length !== 1"
+										@click="closeRightTab(item.path, index)"
+									>
 										<el-icon><DArrowRight /></el-icon>关闭右侧标签页
 									</el-dropdown-item>
-									<el-dropdown-item @click="closeOtherTab">
+									<el-dropdown-item @click="closeOtherTab" v-if="tabsMenuList.length !== 1">
 										<el-icon><Operation /></el-icon>关闭其他标签页
 									</el-dropdown-item>
-									<el-dropdown-item @click="closeAllTab">
+									<el-dropdown-item @click="closeAllTab" v-if="tabsMenuList.length !== 1">
 										<el-icon><Minus /></el-icon>关闭全部标签页
 									</el-dropdown-item>
 								</el-dropdown-menu>

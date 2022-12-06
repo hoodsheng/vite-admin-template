@@ -55,6 +55,7 @@ router.beforeEach(async (to, from, next) => {
 		await initDynamicRouter();
 		return next({ ...to, replace: true });
 	}
+	document.title = to.meta.title as string;
 	// 6.正常访问页面
 	next();
 });
