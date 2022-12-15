@@ -11,21 +11,15 @@
 					<h2 class="logo-text">Hood-Admin</h2>
 				</div>
 				<el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
-					<el-form-item prop="username">
-						<el-input v-model="loginForm.username" placeholder="用户名：admin / user">
+					<el-form-item prop="loginname">
+						<el-input v-model="loginForm.loginname" placeholder="用户名：admin / user">
 							<template #prefix>
 								<el-icon class="el-input__icon"><user /></el-icon>
 							</template>
 						</el-input>
 					</el-form-item>
-					<el-form-item prop="password">
-						<el-input
-							type="password"
-							v-model="loginForm.password"
-							placeholder="密码：123456"
-							show-password
-							autocomplete="new-password"
-						>
+					<el-form-item prop="cipher">
+						<el-input type="cipher" v-model="loginForm.cipher" placeholder="密码：123456" show-cipher autocomplete="new-cipher">
 							<template #prefix>
 								<el-icon class="el-input__icon"><lock /></el-icon>
 							</template>
@@ -49,7 +43,6 @@ import type { FormInstance } from "element-plus";
 import { ElNotification } from "element-plus";
 import { Login } from "@/api/types";
 import { loginApi } from "@/api/modules/login";
-import md5 from "js-md5";
 import { useGlobalStore } from "@/stores";
 import { getTimeState } from "@/utils/util";
 import { HOME_URL } from "@/config/baseconfig";
@@ -63,13 +56,13 @@ const loginFormRef = ref<FormInstance>();
 const loading = ref<boolean>(false);
 // 规则校验
 const loginRules = reactive({
-	username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-	password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+	loginname: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+	cipher: [{ required: true, message: "请输入密码", trigger: "blur" }]
 });
 // 提交数据
 const loginForm = reactive<Login.ReqLoginForm>({
-	username: "",
-	password: ""
+	loginname: "",
+	cipher: ""
 });
 // 提交表单
 const login = (formEl: FormInstance | undefined) => {
@@ -79,11 +72,11 @@ const login = (formEl: FormInstance | undefined) => {
 		loading.value = true;
 		try {
 			const requestLoginForm: Login.ReqLoginForm = {
-				username: loginForm.username,
-				password: md5(loginForm.password)
+				loginname: loginForm.loginname,
+				cipher: loginForm.cipher
 			};
 			const res = await loginApi(requestLoginForm);
-			globalStore.setToken(res.data.access_token);
+			globalStore.setToken(res.data.token);
 			await initDynamicRouter();
 			router.push(HOME_URL);
 			ElNotification({

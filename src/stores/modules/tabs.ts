@@ -4,8 +4,8 @@ import { TABS_WHITE_LIST } from "@/config/baseconfig";
 import piniaPersistConfig from "@/config/piniaPersistConfig";
 import router from "@/routers/index";
 
-// TabsStore
-export const TabsStore = defineStore({
+// useTabsStore
+export const useTabsStore = defineStore({
 	id: "TabsState",
 	state: (): TabsState => ({
 		tabsMenuList: []

@@ -31,12 +31,12 @@ import { computed, inject } from "vue";
 import { ElMessage } from "element-plus";
 import { HOME_URL } from "@/config/baseconfig";
 import { useGlobalStore } from "@/stores";
-import { TabsStore } from "@/stores/modules/tabs";
+import { useTabsStore } from "@/stores/modules/tabs";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-const tabStore = TabsStore();
+const tabStore = useTabsStore();
 const globalStore = useGlobalStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 const reload: Function = inject("refresh") as Function;

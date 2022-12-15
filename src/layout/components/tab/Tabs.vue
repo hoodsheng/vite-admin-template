@@ -27,7 +27,7 @@
 									<el-dropdown-item v-if="item.path === tabsMenuValue" @click="refresh">
 										<el-icon><RefreshRight /></el-icon>重新加载
 									</el-dropdown-item>
-									<el-dropdown-item v-if="item.path !== '/home/index'" @click="closeCurrentTab">
+									<el-dropdown-item v-if="item.path !== '/home-page'" @click="closeCurrentTab">
 										<el-icon><Close /></el-icon>关闭当前标签页
 									</el-dropdown-item>
 									<el-dropdown-item v-if="index !== 0 && index !== 1" @click="closeLeftTab(index)">
@@ -52,7 +52,9 @@
 				</el-tab-pane>
 			</el-tabs>
 			<div class="reloading">
-				<el-icon :size="22" @click="refresh"><RefreshRight /></el-icon>
+				<div class="reloading-icon">
+					<el-icon :size="22" @click="refresh"><RefreshRight /></el-icon>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -62,13 +64,13 @@
 import { ref, computed, watch, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores";
-import { TabsStore } from "@/stores/modules/tabs";
+import { useTabsStore } from "@/stores/modules/tabs";
 import { ElMessage, TabsPaneContext } from "element-plus";
 import { HOME_URL } from "@/config/baseconfig";
 
 const route = useRoute();
 const router = useRouter();
-const tabStore = TabsStore();
+const tabStore = useTabsStore();
 const globalStore = useGlobalStore();
 
 // 当前激活的路由
@@ -148,16 +150,18 @@ const closeAllTab = () => {
 
 <style scoped lang="scss">
 .tabs-box {
-	background-color: #ffffff;
 	:deep(.tabs-menu) {
 		position: relative;
 		.el-tabs--card {
-			width: calc(100% - 40px);
-			height: 40px;
-			line-height: 40px;
+			box-sizing: border-box;
+			width: calc(100% - 50px);
+			height: 50px;
+			padding-left: 20px;
+			line-height: 50px;
 			.el-tabs__header {
 				display: flex;
 				align-items: center;
+				height: 50px;
 				border-bottom: none;
 				.el-tabs__nav {
 					display: flex;
@@ -168,34 +172,53 @@ const closeAllTab = () => {
 			.el-tabs__item {
 				height: 100%;
 				padding: 8px 20px;
-				margin-right: 4px;
+				margin-right: 6px;
 				line-height: 100%;
-				border: 1px solid #d9d9d9;
+				color: #67748e;
+				background-color: #ffffff;
+				border: none;
+				border-radius: 8px;
+				box-shadow: 0 0 27px #0000000d !important;
 				.el-dropdown {
-					font-size: 12px;
+					font-size: 13px;
+					color: #67748e;
 				}
 			}
 			.el-tabs__item.is-active {
-				background-color: var(--el-color-primary);
-				border: 1px solid var(--el-color-primary);
+				color: var(--el-color-primary);
 				.el-dropdown {
-					color: #ffffff;
+					color: var(--el-color-primary);
 				}
+			}
+			.el-tabs__item:hover {
+				background-color: #eaf4fe !important;
 			}
 			.el-tabs__nav-next,
 			.el-tabs__nav-prev {
-				line-height: 36px;
+				line-height: 46px;
 			}
 		}
 		.reloading {
 			position: absolute;
 			top: 0;
-			right: 0;
+			right: 10px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 40px;
-			height: 40px;
+			width: 50px;
+			height: 50px;
+			.reloading-icon {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 32px;
+				height: 32px;
+				margin: 8px auto;
+				color: #67748e;
+				background-color: #ffffff;
+				border-radius: 6px;
+				box-shadow: 0 0 5px #eeeeee;
+			}
 		}
 	}
 }

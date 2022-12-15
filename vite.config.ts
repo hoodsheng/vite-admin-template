@@ -113,11 +113,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			cors: true,
 			// 代理跨域（mock 不需要配置跨域，直接能访问，这里只是个示例）
 			proxy: {
-				"/api": {
-					// target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0",
-					target: "https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e", // easymock
+				"/iot/platformapi": {
+					target: "http://192.168.1.82:7056/iot/platformapi",
 					changeOrigin: true,
-					rewrite: path => path.replace(/^\/api/, "")
+					rewrite: path => path.replace(/^\/iot\/platformapi/, "")
 				}
 			}
 		}
